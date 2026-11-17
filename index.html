@@ -1,59 +1,455 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SwipeLater: Focus App Blocker</title>
-<meta name="description" content="SwipeLater blocks the apps that eat your time. Slide to lock in. Your distractions can wait.">
+<meta name="description" content="SwipeLater blocks the apps that pull you away. Slide to lock in. Your distractions can wait.">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="SwipeLater: your distractions can wait">
+<meta property="og:description" content="Slide to lock in. Your apps wait until the timer ends.">
+<link rel="icon" href="brain.png">
 <style>
-:root{--paper:#F6F3EC;--ink:#171513;--soft:#6F6A60;--line:#E4DED3;--inset:#EDE9E0;--amber:#A97029}
-@media (prefers-color-scheme:dark){:root{--paper:#171513;--ink:#F6F3EC;--soft:#A39C8E;--line:#2B2824;--inset:#201E1B;--amber:#D9993F}}
-*{box-sizing:border-box}html,body{margin:0}
-body{background:var(--paper);color:var(--ink);font:18px/1.55 ui-rounded,"SF Pro Rounded","Segoe UI",system-ui,sans-serif}
-main{width:min(980px,100% - 32px);margin:0 auto}
-header{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
-.logo{font-weight:900;font-size:1.25rem;letter-spacing:-.04em}
-header a{color:var(--soft);text-decoration:none;font-size:.95rem}
-header a:hover,header a:focus-visible{color:var(--ink);text-decoration:underline}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:48px 0 64px}
-h1{font-size:clamp(2.6rem,7vw,4.6rem);line-height:.98;letter-spacing:-.05em;margin:0 0 18px;font-weight:900}
+:root{
+ --paper:#F6F3EC;--ink:#171513;--soft:#6F6A60;--line:#E4DED3;--inset:#EDE9E0;--amber:#A97029;--amber-ink:#7A4E15;
+ --phone:#141210;--screen:#1E1B18;--glass:rgba(255,255,255,.72);--glass-ink:#171513;--pink:#F4A7B9;
+ --ease:cubic-bezier(.2,.8,.2,1);
+}
+@media (prefers-color-scheme:dark){:root{
+ --paper:#141210;--ink:#F3EFE6;--soft:#A39C8E;--line:#2A2622;--inset:#1E1B18;--amber:#E0A04A;--amber-ink:#E0A04A;
+ --phone:#050404;--screen:#1A1714;--glass:rgba(40,36,32,.78);--glass-ink:#F3EFE6;
+}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:100%/1.55 ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.wrap{width:min(1080px,100% - 32px);margin:0 auto}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:8px}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 78%,transparent);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:900;font-size:1.2rem;letter-spacing:-.04em;text-decoration:none}
+.logo span{color:var(--amber)}
+.cta-sm{font-weight:800;font-size:.9rem;text-decoration:none;padding:10px 16px;border-radius:99px;background:var(--ink);color:var(--paper);min-height:44px;display:inline-flex;align-items:center}
+.cta-sm:active{transform:scale(.97)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 360px;gap:56px;align-items:center;padding:56px 0 72px}
+h1{font-size:clamp(2.7rem,7.4vw,5.2rem);line-height:.95;letter-spacing:-.055em;margin:0 0 20px;font-weight:900}
 h1 em{font-style:normal;color:var(--amber)}
-.lede{font-size:1.2rem;color:var(--soft);max-width:30ch;margin:0 0 28px}
-.slide{position:relative;display:flex;align-items:center;width:min(268px,100%);height:64px;border-radius:99px;background:var(--ink);color:var(--paper);padding:4px;font-weight:900;font-size:.9rem;letter-spacing:.14em}
-.slide .k{width:56px;height:56px;border-radius:50%;background:var(--paper);color:var(--ink);display:grid;place-items:center;font-size:1.3rem;animation:nudge 3.2s ease-in-out infinite}
-.slide span{flex:1;text-align:center;padding-right:14px}
-@keyframes nudge{0%,55%,100%{transform:translateX(0)}70%{transform:translateX(30px)}85%{transform:translateX(0)}}
-.note{margin-top:14px;color:var(--soft);font-size:.9rem}
-.brainwrap{display:grid;place-items:center;aspect-ratio:1;border-radius:50%;background:var(--inset);border:2px solid var(--line);position:relative}
-.brainwrap img{width:58%;height:auto}
-.brainwrap::after{content:"25:00";position:absolute;bottom:14%;font-weight:900;font-size:1.6rem;letter-spacing:-.03em}
-.three{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink)}
-.three div{padding:26px 22px 30px 0}
-.three div+div{padding-left:22px;border-left:1px solid var(--line)}
-.three b{display:block;font-size:2.4rem;font-weight:900;color:var(--amber);letter-spacing:-.04em;line-height:1}
-.three h2{font-size:1.15rem;margin:10px 0 6px}
-.three p{margin:0;color:var(--soft);font-size:1rem}
-footer{border-top:1px solid var(--line);margin-top:56px;padding:28px 0 48px;color:var(--soft);font-size:.92rem;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
-footer a{color:var(--ink)}
-@media (max-width:760px){.hero{grid-template-columns:1fr;padding:24px 0 40px}.brainwrap{max-width:320px;order:-1}.three{grid-template-columns:1fr}.three div+div{border-left:0;border-top:1px solid var(--line);padding-left:0}}
-@media (prefers-reduced-motion:reduce){.slide .k{animation:none}}
-</style></head><body><main>
-<header><div class="logo">SwipeLater.</div><a href="#support">Support</a></header>
-<section class="hero">
- <div>
+.lede{font-size:1.2rem;color:var(--soft);max-width:31ch;margin:0 0 30px;line-height:1.45}
+.lede b{color:var(--ink)}
+.hint{display:flex;gap:10px;align-items:center;color:var(--soft);font-size:.95rem;margin-top:16px}
+.hint svg{flex:none}
+
+/* slide control (the live thing) */
+.slide{position:relative;width:min(300px,100%);height:68px;border-radius:99px;background:var(--ink);color:var(--paper);touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden;cursor:grab}
+.slide:active{cursor:grabbing}
+.slide .fill{position:absolute;inset:0 auto 0 0;border-radius:99px;background:color-mix(in srgb,var(--paper) 16%,transparent);width:68px}
+.slide .label{position:absolute;inset:0;display:grid;place-items:center;padding-left:64px;font-weight:900;font-size:.85rem;letter-spacing:.16em;pointer-events:none}
+.slide .label i{font-style:normal;background:linear-gradient(90deg,color-mix(in srgb,var(--paper) 55%,transparent) 0 38%,var(--paper) 50%,color-mix(in srgb,var(--paper) 55%,transparent) 62% 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 2.8s linear infinite}
+@keyframes shine{from{background-position:100% 0}to{background-position:-150% 0}}
+.slide .knob{position:absolute;left:4px;top:4px;width:60px;height:60px;border-radius:50%;background:var(--paper);color:var(--ink);display:grid;place-items:center;box-shadow:0 2px 10px rgba(0,0,0,.25);will-change:transform}
+.slide .knob svg{transition:transform .25s var(--ease)}
+.slide .knob .ck{display:none}.slide.done .knob .ar{display:none}.slide.done .knob .ck{display:block}
+.slide[data-locked="true"]{background:var(--amber)}
+.endbtn{display:none;margin-top:12px;min-height:44px;padding:0 18px;border-radius:99px;border:2px solid var(--line);background:transparent;color:var(--ink);font:800 .9rem inherit;font-family:inherit;cursor:pointer}
+.endbtn.on{display:inline-flex;align-items:center}
+
+/* phone */
+.phone{position:relative;width:340px;height:690px;border-radius:56px;background:var(--phone);padding:12px;box-shadow:0 40px 80px -30px rgba(0,0,0,.45),inset 0 0 0 2px #2c2824;justify-self:center}
+.scr{position:relative;width:100%;height:100%;border-radius:45px;overflow:hidden;background:var(--screen);color:#F3EFE6}
+.island{position:absolute;top:11px;left:50%;width:104px;height:30px;margin-left:-52px;border-radius:20px;background:#000;z-index:5}
+.status{display:flex;justify-content:space-between;padding:16px 30px 0;font-size:.82rem;font-weight:700;height:48px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 14px;padding:40px 22px 0;transition:filter .5s var(--ease),opacity .5s var(--ease)}
+.app{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.68rem;color:#d9d3c7}
+.app b{position:relative;width:58px;height:58px;border-radius:15px;display:grid;place-items:center;font-size:1.5rem;transition:filter .5s var(--ease),transform .5s var(--ease)}
+.app b .lk{position:absolute;right:-5px;bottom:-5px;width:22px;height:22px;border-radius:50%;background:#F3EFE6;color:#171513;display:grid;place-items:center;transform:scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.scr.locked .app.bl b{filter:grayscale(1) brightness(.45)}
+.scr.locked .app.bl b .lk{transform:scale(1)}
+.scr.locked .app.bl:nth-child(2) b .lk{transition-delay:.05s}.scr.locked .app.bl:nth-child(3) b .lk{transition-delay:.1s}.scr.locked .app.bl:nth-child(5) b .lk{transition-delay:.15s}.scr.locked .app.bl:nth-child(6) b .lk{transition-delay:.2s}
+.dock{position:absolute;left:12px;right:12px;bottom:12px;height:86px;border-radius:32px;background:rgba(255,255,255,.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;justify-content:space-around;align-items:center}
+.dock b{width:56px;height:56px;border-radius:15px;display:grid;place-items:center;font-size:1.4rem}
+
+/* notifications */
+.notes{position:absolute;top:52px;left:10px;right:10px;z-index:4;display:grid;gap:8px;pointer-events:none}
+.note{display:flex;gap:10px;align-items:center;padding:11px 12px;border-radius:20px;background:var(--glass);color:var(--glass-ink);backdrop-filter:blur(20px) saturate(170%);-webkit-backdrop-filter:blur(20px) saturate(170%);font-size:.78rem;line-height:1.3;box-shadow:0 8px 20px -10px rgba(0,0,0,.5);transform-origin:top center;animation:drop .5s cubic-bezier(.34,1.3,.64,1) both}
+.note i{flex:none;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-style:normal;font-size:.95rem}
+.note b{display:block;font-size:.8rem}
+.note.out{animation:suck .45s cubic-bezier(.5,0,.75,0) both}
+@keyframes drop{from{opacity:0;transform:translateY(-24px) scale(.94)}}
+@keyframes suck{to{opacity:0;transform:translateY(420px) scale(.35)}}
+
+/* locked overlay */
+.focus{position:absolute;inset:0;z-index:3;display:grid;place-items:center;align-content:center;gap:18px;opacity:0;pointer-events:none;transition:opacity .45s var(--ease)}
+.scr.locked .focus{opacity:1}
+.scr.locked .grid{filter:blur(6px);opacity:.35}
+.ring{position:relative;width:200px;height:200px}
+.ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.ring img{position:absolute;left:50%;top:30%;width:74px;transform:translateX(-50%);animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,-4px)}}
+.ring .t{position:absolute;left:0;right:0;top:58%;text-align:center;font-weight:900;font-size:2.1rem;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.task{font-weight:800;font-size:.9rem;color:#d9d3c7}
+.tray{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:99px;background:rgba(255,255,255,.1);font-size:.8rem;font-weight:700;color:#F3EFE6;transform:scale(1);transition:transform .2s}
+.tray.bump{transform:scale(1.12)}
+.tray span{min-width:1.5em;text-align:center;padding:1px 7px;border-radius:99px;background:var(--amber);color:#171513;font-variant-numeric:tabular-nums}
+
+/* sections */
+section{padding:72px 0}
+.kick{font-weight:900;font-size:.78rem;letter-spacing:.18em;color:var(--amber-ink);margin:0 0 12px}
+h2{font-size:clamp(2rem,4.6vw,3.2rem);line-height:1;letter-spacing:-.045em;margin:0 0 18px;font-weight:900}
+.sub{font-size:1.1rem;color:var(--soft);max-width:44ch;margin:0}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;border-top:2px solid var(--ink);padding-top:44px}
+.big{font-size:clamp(4.5rem,13vw,9rem);font-weight:900;letter-spacing:-.06em;line-height:.85;font-variant-numeric:tabular-nums;color:var(--amber)}
+.bigcap{font-size:1.25rem;font-weight:800;margin:10px 0 0}
+.bigcap small{display:block;font-weight:600;color:var(--soft);font-size:1rem;margin-top:6px}
+.range{margin:26px 0 8px}
+.range label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-weight:800;margin-bottom:12px}
+.range output{flex:none;white-space:nowrap;font-size:1.3rem;font-variant-numeric:tabular-nums;color:var(--amber-ink)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--amber) var(--p,40%),var(--line) var(--p,40%))}
+input[type=range]::-moz-range-track{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--amber) var(--p,40%),var(--line) var(--p,40%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;height:32px;margin-top:-11px;border-radius:50%;background:var(--paper);border:3px solid var(--ink);box-shadow:0 3px 10px rgba(0,0,0,.2)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--paper);border:3px solid var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chips button{min-height:44px;padding:0 16px;border-radius:99px;border:2px solid var(--line);background:transparent;color:var(--ink);font:700 .9rem inherit;font-family:inherit;cursor:pointer}
+.chips button[aria-pressed=true]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.chips button:active{transform:scale(.97)}
+.src{font-size:.82rem;color:var(--soft);margin-top:14px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);margin-top:40px;border-top:2px solid var(--ink)}
+.steps div{padding:26px 26px 8px 0}
+.steps div+div{padding-left:26px;border-left:1px solid var(--line)}
+.steps b{display:block;font-size:2.8rem;font-weight:900;color:var(--amber);letter-spacing:-.05em;line-height:1}
+.steps h3{font-size:1.2rem;margin:12px 0 6px;letter-spacing:-.02em}
+.steps p{margin:0;color:var(--soft)}
+
+/* why */
+.why{display:grid;grid-template-columns:1.1fr .9fr;gap:48px}
+.facts{display:grid;gap:0;border-top:2px solid var(--ink)}
+.fact{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--line)}
+.fact strong{font-size:2.4rem;font-weight:900;letter-spacing:-.05em;line-height:1}
+.fact p{margin:0}
+.fact a{font-size:.82rem;color:var(--soft)}
+.card{background:var(--ink);color:var(--paper);border-radius:28px;padding:30px}
+.card h3{font-size:1.6rem;letter-spacing:-.03em;margin:0 0 10px;line-height:1.1}
+.card p{margin:0 0 12px;opacity:.82}
+.card ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.card li{display:flex;gap:10px;align-items:flex-start}
+.card li svg{flex:none;margin-top:4px}
+
+/* faq */
+details{border-bottom:1px solid var(--line)}
+details summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-weight:800;font-size:1.1rem;min-height:44px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font-size:1.6rem;font-weight:500;transition:transform .25s var(--ease)}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 20px;color:var(--soft);max-width:60ch}
+
+/* final */
+.final{text-align:center;padding:96px 0}
+.final h2{font-size:clamp(2.6rem,7vw,4.8rem)}
+.final .sub{margin:0 auto 30px}
+.big-cta{display:inline-flex;align-items:center;gap:10px;min-height:60px;padding:0 30px;border-radius:99px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:900;font-size:1.05rem;letter-spacing:.02em;box-shadow:0 14px 30px -14px rgba(0,0,0,.5)}
+.big-cta:active{transform:scale(.97)}
+.small{font-size:.9rem;color:var(--soft);margin-top:14px}
+
+footer{border-top:1px solid var(--line);padding:28px 0 48px;color:var(--soft);font-size:.92rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:space-between}
+
+@media (max-width:860px){
+ .hero{grid-template-columns:1fr;gap:36px;padding:28px 0 48px}
+ .hero .copy{order:0}.phone{order:1}
+ .calc,.why{grid-template-columns:1fr;gap:32px}
+ .steps{grid-template-columns:1fr}.steps div+div{border-left:0;border-top:1px solid var(--line);padding-left:0}
+ section{padding:52px 0}
+ .fact{grid-template-columns:104px 1fr;gap:14px}.fact strong{font-size:1.9rem;white-space:nowrap}
+}
+@media (max-width:380px){.phone{width:300px;height:610px}.grid{gap:18px 8px;padding:34px 14px 0}.app b{width:52px;height:52px}.ring{width:170px;height:170px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media (prefers-reduced-transparency:reduce){header.top{background:var(--paper);backdrop-filter:none}.note{background:#F3EFE6;color:#171513;backdrop-filter:none}}
+</style></head>
+<body>
+<header class="top"><div class="wrap">
+ <a class="logo" href="#">SwipeLater<span>.</span></a>
+ <a class="cta-sm" href="#get">Get early access</a>
+</div></header>
+
+<main>
+<div class="wrap hero">
+ <div class="copy">
   <h1>Your distractions<br>can <em>wait.</em></h1>
-  <p class="lede">Pick the apps that eat your time. Slide to lock in. They come back when the timer ends.</p>
-  <div class="slide" aria-hidden="true"><div class="k">&rarr;</div><span>SLIDE TO LOCK IN</span></div>
-  <p class="note">iPhone app. Coming soon to the App Store.</p>
+  <p class="lede">SwipeLater blocks the apps that pull you away. <b>Slide to lock in.</b> Everything else waits until the timer ends.</p>
+  <div class="slide" id="slide" role="button" tabindex="0" aria-label="Slide to lock in. Try the demo." data-locked="false">
+   <div class="fill" id="fill"></div>
+   <div class="label" id="label"><i>SLIDE TO LOCK IN</i></div>
+   <div class="knob" id="knob"><svg class="ar" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><svg class="ck" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+  </div>
+  <button class="endbtn" id="end">End the demo</button>
+  <p class="hint" id="hint"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 12h10M13 8l4 4-4 4"/></svg><span>Try it. Watch the phone.</span></p>
  </div>
- <div class="brainwrap" aria-hidden="true"><img src="brain.png" alt=""></div>
-</section>
-<section class="three" aria-label="How it works">
- <div><b>1</b><h2>Pick a task</h2><p>Say what you are working on. One thing at a time.</p></div>
- <div><b>2</b><h2>Slide to lock in</h2><p>A slide is a real choice. It cannot start by accident in a pocket.</p></div>
- <div><b>3</b><h2>Your apps wait</h2><p>Blocked apps stay blocked until the timer ends. Your PC can join too.</p></div>
-</section>
-<footer id="support">
- <div>Questions or help: <a href="mailto:help@swipelater.app">help@swipelater.app</a></div>
+
+ <div class="phone" aria-label="Demo phone">
+  <div class="scr" id="scr">
+   <div class="island"></div>
+   <div class="status"><span id="clock">9:41</span><span>&#9679;&#9679;&#9679;</span></div>
+   <div class="notes" id="notes" aria-live="polite"></div>
+   <div class="grid">
+    <div class="app bl"><b style="background:#E5484D">&#9654;<span class="lk"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1v11H6V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></b>Videos</div>
+    <div class="app bl"><b style="background:linear-gradient(135deg,#F5A623,#D6336C)">&#9673;<span class="lk"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1v11H6V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></b>Photos+</div>
+    <div class="app bl"><b style="background:#111;box-shadow:inset 0 0 0 1px #333">&#9835;<span class="lk"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1v11H6V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></b>Shorts</div>
+    <div class="app"><b style="background:#F3EFE6;color:#171513">&#9998;</b>Notes</div>
+    <div class="app bl"><b style="background:#FFD43B;color:#171513">&#9733;<span class="lk"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1v11H6V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></b>Snaps</div>
+    <div class="app bl"><b style="background:#7048E8">&#9881;<span class="lk"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1v11H6V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></b>Games</div>
+    <div class="app"><b style="background:#2F9E44">&#10003;</b>Tasks</div>
+    <div class="app"><b style="background:#1C7ED6">&#9729;</b>Weather</div>
+    <div class="app"><b style="background:#495057">&#9783;</b>Calendar</div>
+    <div class="app bl"><b style="background:#0CA678">&#9787;<span class="lk"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1v11H6V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></b>Chat</div>
+    <div class="app"><b style="background:#F3EFE6;color:#171513">&#8721;</b>Calc</div>
+    <div class="app bl"><b style="background:#D6336C">&#9829;<span class="lk"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1v11H6V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></b>Dating</div>
+    <div class="app"><b style="background:#364FC7">&#9998;</b>Docs</div>
+    <div class="app"><b style="background:#868E96">&#9881;</b>Settings</div>
+    <div class="app bl"><b style="background:#F76707">&#9733;<span class="lk"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V7a5 5 0 0 1 10 0v3h1v11H6V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></b>Shop</div>
+    <div class="app"><b style="background:#2B8A3E">&#9835;</b>Music</div>
+   </div>
+   <div class="focus" aria-hidden="true">
+    <div class="ring">
+     <svg viewBox="0 0 200 200" width="100%" height="100%"><circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle id="arc" cx="100" cy="100" r="90" fill="none" stroke="#F3EFE6" stroke-width="10" stroke-linecap="round" stroke-dasharray="565.5" stroke-dashoffset="0"/></svg>
+     <img src="brain.png" alt="">
+     <div class="t" id="time">25:00</div>
+    </div>
+    <div class="task">Locked in: History essay</div>
+    <div class="tray" id="tray">Waiting for you <span id="count">0</span></div>
+   </div>
+   <div class="dock"><b style="background:#2F9E44">&#9742;</b><b style="background:#1C7ED6">&#9993;</b><b style="background:#F3EFE6;color:#171513">&#9711;</b><b style="background:#E8590C">&#9835;</b></div>
+  </div>
+ </div>
+</div>
+
+<section id="cost"><div class="wrap">
+ <p class="kick">THE MATH</p>
+ <h2>Where does the time go?</h2>
+ <p class="sub">Move the slider to your own number. Check Screen Time in Settings if you are not sure.</p>
+ <div class="calc" style="margin-top:36px">
+  <div>
+   <div class="range">
+    <label for="hrs"><span>Hours a day on apps you'd rather not</span><output id="hrsOut">2.0 h</output></label>
+    <input id="hrs" type="range" min="0.5" max="8" step="0.5" value="2">
+   </div>
+   <div class="chips" role="group" aria-label="If you won back">
+    <button data-k="0.25" aria-pressed="false">Win back 25%</button>
+    <button data-k="0.5" aria-pressed="true">Win back half</button>
+    <button data-k="1" aria-pressed="false">All of it</button>
+   </div>
+   <p class="src">For reference: US teens report about 4.8 hours a day on social media alone. <a href="https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx" target="_blank" rel="noopener">Gallup, 2023</a>.</p>
+  </div>
+  <div>
+   <div class="big" id="days" aria-live="polite">15</div>
+   <p class="bigcap" id="daysCap">full days back every year<small id="daysSmall">That is 365 hours. Enough to learn a language basics, or watch every sunset.</small></p>
+  </div>
+ </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+ <p class="kick">HOW IT WORKS</p>
+ <h2>Three moves. That's it.</h2>
+ <div class="steps">
+  <div><b>1</b><h3>Pick one task</h3><p>Say what you are working on. One thing, not a to-do list.</p></div>
+  <div><b>2</b><h3>Slide to lock in</h3><p>A slide is a real choice. It can't start by accident in your pocket.</p></div>
+  <div><b>3</b><h3>Your apps wait</h3><p>Picked apps stay blocked until the clock hits zero. Then they're all back.</p></div>
+ </div>
+</div></section>
+
+<section id="why"><div class="wrap why">
+ <div>
+  <p class="kick">WHY BOTHER</p>
+  <h2>It's not a willpower thing.</h2>
+  <p class="sub" style="margin-bottom:28px">Apps are built to pull you back. A small speed bump works better than trying harder.</p>
+  <div class="facts">
+   <div class="fact"><strong>70%</strong><div><p>of US adults under 30 say they spend too much time on their phone.</p><a href="https://www.pewresearch.org/short-reads/2026/09/01/about-half-of-americans-say-they-spend-too-much-time-on-their-smartphone/" target="_blank" rel="noopener">Pew Research Center, 2026</a></div></div>
+   <div class="fact"><strong>4 in 10</strong><div><p>US teens say they are online almost constantly.</p><a href="https://www.pewresearch.org/internet/2025/12/09/teens-social-media-and-ai-chatbots-2025/" target="_blank" rel="noopener">Pew Research Center, 2025</a></div></div>
+   <div class="fact"><strong>22 min</strong><div><p>less social media a day, when people set their own app limits. Study in adults.</p><a href="https://siepr.stanford.edu/news/hooked-your-smartphone" target="_blank" rel="noopener">Allcott, Gentzkow &amp; Song, Stanford</a></div></div>
+  </div>
+ </div>
+ <div class="card">
+  <h3>Made for real life, not a monk.</h3>
+  <p>No guilt trips. You choose the apps, the time, and when to start.</p>
+  <ul>
+   <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>Uses Apple's Screen Time. Your usage stays on your phone.</li>
+   <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>No account. No ads. No tracking.</li>
+   <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>An accountability partner can let you out early.</li>
+   <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>Your Windows PC can lock in with you.</li>
+  </ul>
+ </div>
+</div></section>
+
+<section id="faq"><div class="wrap" style="max-width:760px">
+ <p class="kick">QUESTIONS</p>
+ <h2>Quick answers.</h2>
+ <details><summary>Is it free?</summary><p>Yes. The core app is free. Plus adds Locked mode, where there is no quit button, and PC pairing.</p></details>
+ <details><summary>Can I still get calls and texts?</summary><p>Yes. You pick which apps get blocked. Everything else works as normal.</p></details>
+ <details><summary>What if I really need to get out?</summary><p>In normal mode you can end a session any time. In Locked mode your partner can let you out, or you get one emergency exit a week.</p></details>
+ <details><summary>Can SwipeLater see what I do on my phone?</summary><p>No. Apple's Screen Time keeps that data on your device. We never get it.</p></details>
+ <details><summary>When is it out?</summary><p>It is in testing now on iPhone. Ask for early access and we will send you a test invite.</p></details>
+</div></section>
+
+<section class="final" id="get"><div class="wrap">
+ <h2>Your distractions<br>can <em style="font-style:normal;color:var(--amber)">wait.</em></h2>
+ <p class="sub">SwipeLater is in testing on iPhone. Get an early invite before it hits the App Store.</p>
+ <a class="big-cta" href="mailto:help@swipelater.app?subject=Early%20access%20to%20SwipeLater&body=Hi!%20I%27d%20like%20to%20try%20SwipeLater%20on%20my%20iPhone.">Get early access
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+ <p class="small">iPhone only. Free to try.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+ <div>Help: <a href="mailto:help@swipelater.app">help@swipelater.app</a></div>
  <div><a href="privacy/">Privacy policy</a></div>
  <div>&copy; 2026 SwipeLater</div>
-</footer>
-</main></body></html>
+</div></footer>
+
+<script>
+(() => {
+ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const $ = id => document.getElementById(id);
+ const slide = $('slide'), knob = $('knob'), fill = $('fill'), label = $('label');
+ const scr = $('scr'), notes = $('notes'), tray = $('tray'), count = $('count'), end = $('end'), hint = $('hint');
+
+ /* ---------- spring (damping ratio + response, Apple-style) ---------- */
+ let x = 0, v = 0, target = 0, raf = 0, zeta = 1, resp = .35;
+ const max = () => slide.clientWidth - 68;
+ function paint(){
+  const m = max(), p = Math.max(0, Math.min(1, x / m));
+  knob.style.transform = `translateX(${x}px)`;
+  fill.style.width = (x + 68) + 'px';
+  label.style.opacity = 1 - Math.min(p * 1.8, 1);
+ }
+ function step(t0){
+  let last = t0;
+  const tick = t => {
+   const dt = Math.min(.032, (t - last) / 1000); last = t;
+   const k = Math.pow(2 * Math.PI / resp, 2), c = 4 * Math.PI * zeta / resp;
+   v += (-k * (x - target) - c * v) * dt; x += v * dt; paint();
+   if (Math.abs(x - target) < .3 && Math.abs(v) < 5) { x = target; v = 0; paint(); raf = 0; return; }
+   raf = requestAnimationFrame(tick);
+  };
+  raf = requestAnimationFrame(tick);
+ }
+ function springTo(t, vel = 0, z = 1, r = .35){
+  target = t; v = vel; zeta = z; resp = r;
+  if (reduce) { x = t; v = 0; paint(); return; }
+  if (!raf) step(performance.now());
+ }
+ const rubber = (o, d, c = .55) => (o * d * c) / (d + c * Math.abs(o));
+
+ /* ---------- drag with grab offset, velocity history ---------- */
+ let dragging = false, start = 0, origin = 0, hist = [], locked = false;
+ slide.addEventListener('pointerdown', e => {
+  if (locked) return;
+  dragging = true; slide.setPointerCapture(e.pointerId);
+  cancelAnimationFrame(raf); raf = 0;            // grab it mid-flight: start from the live value
+  start = e.clientX; origin = x; hist = [{x: e.clientX, t: e.timeStamp}];
+ });
+ slide.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  let nx = origin + (e.clientX - start); const m = max();
+  if (nx < 0) nx = -rubber(-nx, 60); else if (nx > m) nx = m + rubber(nx - m, 60);
+  x = nx; paint();
+  hist.push({x: e.clientX, t: e.timeStamp}); if (hist.length > 6) hist.shift();
+ });
+ const release = e => {
+  if (!dragging) return; dragging = false;
+  const a = hist[0], b = hist[hist.length - 1];
+  const vel = b && a && b.t > a.t ? (b.x - a.x) / ((b.t - a.t) / 1000) : 0;
+  const moved = Math.abs(e.clientX - start);
+  const d = .998, projected = x + (vel / 1000) * d / (1 - d);
+  if (moved < 5) { nudge(); return; }
+  if (projected > max() * .75 && vel > -100) { springTo(max(), vel, 1, .25); lockIn(); }
+  else springTo(0, vel, .8, .35);
+ };
+ slide.addEventListener('pointerup', release);
+ slide.addEventListener('pointercancel', release);
+ slide.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') && !locked) { e.preventDefault(); springTo(max(), 0, 1, .3); lockIn(); }
+ });
+ function nudge(){ if (reduce) return; v = 0; target = 0; x = 0; springTo(0, 900, .5, .45); }
+
+ /* ---------- demo phone ---------- */
+ const msgs = [
+  ['#E5484D','&#9654;','Videos','3 new videos from creators you follow'],
+  ['#FFD43B','&#9733;','Snaps','Jordan sent you a snap'],
+  ['linear-gradient(135deg,#F5A623,#D6336C)','&#9673;','Photos+','sam_k liked your photo'],
+  ['#7048E8','&#9881;','Games','Your lives are full. Play now!'],
+  ['#111','&#9835;','Shorts','You have to see this one'],
+  ['#FFD43B','&#9733;','Snaps','Your streak is about to end'],
+  ['linear-gradient(135deg,#F5A623,#D6336C)','&#9673;','Photos+','4 people viewed your story'],
+ ];
+ let mi = 0, waiting = 0, noteTimer = 0, timer = 0, secs = 1500;
+ function note(){
+  const [bg, ic, app, txt] = msgs[mi++ % msgs.length];
+  const n = document.createElement('div'); n.className = 'note';
+  n.innerHTML = `<i style="background:${bg};color:${bg==='#FFD43B'?'#171513':'#fff'}">${ic}</i><div><b>${app}</b>${txt}</div>`;
+  notes.prepend(n);
+  if (locked) {
+   setTimeout(() => { n.classList.add('out'); setTimeout(() => n.remove(), 450);
+    waiting++; count.textContent = waiting; tray.classList.add('bump'); setTimeout(() => tray.classList.remove('bump'), 200); }, reduce ? 300 : 700);
+  } else {
+   while (notes.children.length > 2) notes.lastChild.remove();
+  }
+ }
+ function loopNotes(){ clearInterval(noteTimer); noteTimer = setInterval(note, locked ? 1500 : 2600); }
+ const fmt = s => `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+ function lockIn(){
+  if (locked) return; locked = true;
+  slide.dataset.locked = 'true'; slide.classList.add('done'); slide.setAttribute('aria-label','Locked in. Demo running.');
+  label.innerHTML = '<i>LOCKED IN</i>'; label.style.opacity = 1; label.style.paddingLeft = '0'; label.style.paddingRight = '64px';
+  [...notes.children].forEach(n => { n.classList.add('out'); setTimeout(() => n.remove(), 450); waiting++; });
+  count.textContent = waiting;
+  scr.classList.add('locked'); end.classList.add('on'); hint.querySelector('span').textContent = 'Notifications now wait in the tray.';
+  if (navigator.vibrate) navigator.vibrate(12);
+  secs = 1500; $('time').textContent = fmt(secs);
+  clearInterval(timer);
+  timer = setInterval(() => { secs = Math.max(0, secs - 1); $('time').textContent = fmt(secs);
+   $('arc').style.strokeDashoffset = (565.5 * (1 - secs / 1500)).toFixed(1); }, 1000);
+  loopNotes();
+ }
+ end.addEventListener('click', () => {
+  locked = false; clearInterval(timer); scr.classList.remove('locked'); end.classList.remove('on');
+  slide.dataset.locked = 'false'; slide.classList.remove('done'); slide.setAttribute('aria-label','Slide to lock in. Try the demo.');
+  label.innerHTML = '<i>SLIDE TO LOCK IN</i>'; label.style.paddingLeft = ''; label.style.paddingRight = '';
+  springTo(0, 0, 1, .4);
+  hint.querySelector('span').textContent = `${waiting} things waited. None of them mattered.`;
+  waiting = 0; count.textContent = 0; $('arc').style.strokeDashoffset = 0; loopNotes();
+ });
+ setTimeout(note, 900); loopNotes();
+ const clk = () => { const d = new Date(); $('clock').textContent = `${d.getHours()%12||12}:${String(d.getMinutes()).padStart(2,'0')}`; };
+ clk(); setInterval(clk, 30000);
+ addEventListener('resize', () => { if (locked) { x = max(); target = x; paint(); } });
+
+ /* ---------- calculator ---------- */
+ const hrs = $('hrs'), out = $('hrsOut'), days = $('days'), small = $('daysSmall');
+ let share = .5, shown = 0, animId = 0;
+ const ideas = [[0,'Enough for a lot of sleep.'],[100,'Enough to read about 30 books.'],[250,'Enough to learn the basics of a new language.'],[500,'Enough to learn an instrument to a solid level.'],[900,'That is more than a full-time job for half a year.']];
+ function calc(){
+  const h = +hrs.value; out.textContent = h.toFixed(1) + ' h';
+  hrs.style.setProperty('--p', ((h - .5) / 7.5 * 100) + '%');
+  const hours = h * share * 365, d = hours / 24;
+  const idea = ideas.filter(i => hours >= i[0]).pop()[1];
+  small.textContent = `That is ${Math.round(hours)} hours. ${idea}`;
+  cancelAnimationFrame(animId);
+  const from = shown, to = d, t0 = performance.now(), dur = reduce ? 0 : 450;
+  const run = t => { const p = dur ? Math.min(1, (t - t0) / dur) : 1, e = 1 - Math.pow(1 - p, 3);
+   shown = from + (to - from) * e; days.textContent = Math.round(shown); if (p < 1) animId = requestAnimationFrame(run); };
+  animId = requestAnimationFrame(run);
+ }
+ hrs.addEventListener('input', calc);
+ document.querySelectorAll('.chips button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.chips button').forEach(o => o.setAttribute('aria-pressed', o === b));
+  share = +b.dataset.k; calc();
+ }));
+ calc();
+})();
+</script>
+</body></html>
