@@ -311,6 +311,7 @@ footer nav{display:flex;gap:24px}
 
 <script>
 (() => {
+ const APP_URL = ''; // e.g. https://apps.apple.com/app/id0000000000
  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
  const $ = id => document.getElementById(id);
 
@@ -422,6 +423,8 @@ footer nav{display:flex;gap:24px}
   secs = 1500; $('time').textContent = fmt(secs); clearInterval(timer);
   timer = setInterval(() => { secs = Math.max(0, secs - 1); $('time').textContent = fmt(secs); }, 1000);
   loopNotes();
+  // After a beat to see the lock land, send them on. Set APP_URL when the app is live on the App Store.
+  setTimeout(() => { if (!locked) return; if (APP_URL) location.href = APP_URL; else $('get').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}); }, 1800);
  }
  end.addEventListener('click', () => {
   locked = false; clearInterval(timer); stage.classList.remove('locked'); end.classList.remove('on');
