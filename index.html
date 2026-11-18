@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SwipeLater: Focus App Blocker</title>
-<meta name="description" content="SwipeLater locks the apps that pull you away. Slide once, and everything else waits until the timer ends. iPhone, in testing now.">
+<meta name="description" content="SwipeLater locks the apps that pull you away. Slide once, and they wait until your timer ends. iPhone, in testing now.">
 <meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#15110F" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="brain.png">
@@ -27,7 +27,7 @@
 }}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-html,body{margin:0}
+html,body{margin:0;overflow-x:clip}
 body{background:var(--paper);color:var(--ink);font:1.0625rem/1.55 Onest,ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 img{max-width:100%;display:block}
@@ -52,14 +52,15 @@ header.top .wrap{display:flex;align-items:center;justify-content:space-between;h
 .btn.sm{min-height:44px;padding:0 18px;font-size:.95rem}
 
 /* hero */
-.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;padding:36px 0 96px}
+#cost{padding:48px 0 40px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;padding:56px 0 96px}
 h1{font-size:clamp(3rem,6.2vw,5rem)}
 .lede{font-size:1.25rem;color:var(--soft);max-width:30ch;margin:26px 0 32px;line-height:1.45}
 .lede b{color:var(--ink)}
 .hint{display:flex;gap:10px;align-items:center;color:var(--soft);font-size:1rem;margin-top:16px;min-height:1.6em}
 
 /* slide control */
-.slide{position:relative;width:min(340px,100%);height:72px;border-radius:999px;background:var(--pill-bg);color:var(--pill-fg);touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden;cursor:grab;
+.slide{position:relative;width:min(340px,100%);height:72px;border-radius:999px;background:var(--pill-bg);color:var(--pill-fg);touch-action:pan-y;user-select:none;-webkit-user-select:none;overflow:hidden;cursor:grab;
  box-shadow:0 10px 0 -2px var(--plum),0 22px 30px -12px rgba(107,69,97,.55)}
 .slide:active{cursor:grabbing}
 .slide .fill{position:absolute;inset:0 auto 0 0;border-radius:999px;background:color-mix(in srgb,var(--pill-fg) 16%,transparent);width:72px}
@@ -76,8 +77,8 @@ h1{font-size:clamp(3rem,6.2vw,5rem)}
 /* the stage: a floor going back, the brain, tiles and notifications */
 .stage{position:relative;width:100%;max-width:560px;aspect-ratio:1/1.08;justify-self:center;isolation:isolate}
 .floorwrap{position:absolute;left:-30%;right:-30%;top:46%;bottom:-30%;perspective:700px;perspective-origin:50% -20%;z-index:0;pointer-events:none;
- -webkit-mask-image:linear-gradient(transparent,#000 22%,#000 70%,transparent),linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(transparent,#000 22%,#000 70%,transparent),linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-composite:intersect}
-.floor{position:absolute;inset:0;background-color:var(--floor);background-image:linear-gradient(var(--line) 2px,transparent 2px),linear-gradient(90deg,var(--line) 2px,transparent 2px);background-size:56px 56px;transform:rotateX(60deg);transform-origin:50% 0}
+ -webkit-mask-image:radial-gradient(ellipse 46% 62% at 50% 48%,#000 14%,rgba(0,0,0,.5) 46%,transparent 80%);mask-image:radial-gradient(ellipse 46% 62% at 50% 48%,#000 14%,rgba(0,0,0,.5) 46%,transparent 80%)}
+.floor{position:absolute;inset:0;background-image:linear-gradient(var(--line) 2px,transparent 2px),linear-gradient(90deg,var(--line) 2px,transparent 2px);background-size:56px 56px;transform:rotateX(60deg);transform-origin:50% 0}
 .cast{position:absolute;border-radius:50%;background:var(--shadow);filter:blur(14px);z-index:1}
 .brain{position:absolute;left:50%;bottom:9%;width:50%;transform:translateX(-50%);z-index:5;filter:drop-shadow(0 22px 18px var(--shadow))}
 .brain svg{display:block;width:100%;height:auto;overflow:visible}
@@ -121,12 +122,88 @@ h1{font-size:clamp(3rem,6.2vw,5rem)}
 .bubble{position:absolute;z-index:10;left:3%;bottom:11%;background:#fff;color:#171513;border:3px solid #171513;border-radius:22px;padding:10px 16px;font-weight:900;font-size:1.05rem;letter-spacing:-.02em;box-shadow:0 5px 0 #171513;transform:rotate(-4deg);transition:transform .3s var(--pop)}
 .bubble.pop{transform:rotate(-4deg) scale(1.08)}
 
+
+.verdict{display:flex;gap:28px;align-items:center;justify-content:space-between;margin-top:40px;padding:34px 36px;border-radius:32px;background:var(--pill-bg);color:var(--pill-fg);box-shadow:0 10px 0 -2px var(--plum),0 24px 34px -16px rgba(107,69,97,.5)}
+.verdict[hidden]{display:none}
+.verdict.in{animation:drop .5s var(--pop) both}
+.verdict h3{font-size:clamp(1.6rem,3.4vw,2.3rem);letter-spacing:-.04em}
+.vstat{margin:12px 0 0;font-size:1.1rem;max-width:56ch;color:color-mix(in srgb,var(--pill-fg) 86%,transparent)}
+.vsrc{margin:12px 0 0;font-size:.9rem;color:color-mix(in srgb,var(--pill-fg) 62%,transparent)}
+.vsrc a{color:var(--pill-fg)}
+.vgo{flex:none;background:var(--amber);color:#171513;gap:10px;min-height:56px;padding:0 26px}
+.slide.ping{animation:ping .9s var(--ease) 2}
+@keyframes ping{0%{box-shadow:0 10px 0 -2px var(--plum),0 0 0 0 rgba(169,112,41,.7)}100%{box-shadow:0 10px 0 -2px var(--plum),0 0 0 26px rgba(169,112,41,0)}}
+@media (max-width:860px){.verdict{flex-direction:column;align-items:stretch;padding:28px 24px}.vgo{justify-content:center}}
+
+
+html{scroll-padding-top:84px}
+a,button,.btn,.slide{-webkit-tap-highlight-color:transparent}
+button,.btn{touch-action:manipulation}
+header.top{transition:box-shadow .25s var(--ease)}
+header.top.sc{box-shadow:0 1px 0 var(--line)}
+.chiplabel{margin:26px 0 0;font-weight:700}
+.chips{margin-top:12px}
+.chips button{transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),transform .15s var(--ease)}
+.chips button:active{transform:scale(.95)}
+.result{transition:transform .35s var(--pop)}
+.result.bump{transform:scale(1.025)}
+.daybar{height:14px;border-radius:99px;background:var(--paper);margin-top:26px;overflow:hidden}
+.daybar i{display:block;height:100%;width:50%;border-radius:99px;background:var(--amber);transition:width .55s var(--ease)}
+.dbcap{margin:10px 0 0;font-size:.95rem;color:var(--soft);min-height:1.5em}
+.vtext{transition:opacity .16s var(--ease)}
+.verdict.swap .vtext{opacity:0}
+.opening{position:fixed;inset:0;z-index:100;background:var(--paper);display:grid;place-content:center;justify-items:center;gap:18px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
+.opening.on{opacity:1;pointer-events:auto}
+.opening #openBrain{width:150px;filter:drop-shadow(0 16px 14px var(--shadow))}
+.opening p{margin:0;font-weight:800;font-size:1.2rem}
+
+
+.rotwrap{--rot:0;position:absolute;right:-6px;top:-62px;width:150px;pointer-events:none}
+.rotbrain{transform-origin:50% 100%;transform:rotate(calc(var(--rot)*-6deg + 8deg)) scale(1,calc(1 - var(--rot)*.16));
+ filter:saturate(calc(1 - var(--rot)*.7)) hue-rotate(calc(var(--rot)*88deg)) sepia(calc(var(--rot)*.4)) brightness(calc(1 - var(--rot)*.24)) drop-shadow(0 12px 10px var(--shadow));
+ transition:transform .5s var(--ease),filter .5s var(--ease)}
+.rotbrain svg{display:block;width:100%;height:auto;overflow:visible}
+.fly{position:absolute;width:7px;height:7px;border-radius:50%;background:#2c2a1d;left:50%;top:30%;opacity:clamp(0,calc((var(--rot) - .5)*4),1);transition:opacity .4s}
+.f1{animation:fly1 1.7s linear infinite}.f2{animation:fly2 2.3s linear infinite}.f3{animation:fly3 1.3s linear infinite}
+@keyframes fly1{0%{transform:translate(-50px,0)}25%{transform:translate(-10px,-24px)}50%{transform:translate(48px,-6px)}75%{transform:translate(14px,22px)}100%{transform:translate(-50px,0)}}
+@keyframes fly2{0%{transform:translate(40px,-18px)}33%{transform:translate(-30px,-30px)}66%{transform:translate(-44px,14px)}100%{transform:translate(40px,-18px)}}
+@keyframes fly3{0%{transform:translate(0,-28px)}50%{transform:translate(30px,26px)}100%{transform:translate(0,-28px)}}
+.cbsay{position:absolute;right:6px;top:104px;max-width:150px;text-align:center;background:#fff;color:#171513;border:3px solid #171513;border-radius:18px;padding:6px 12px;font-weight:900;font-size:.9rem;line-height:1.15;letter-spacing:-.02em;box-shadow:0 4px 0 #171513;transform:rotate(3deg)}
+@media (prefers-reduced-motion:reduce){.fly{animation:none}}
+
+
+/* motion: one orchestrated entrance, a calm idle, motion that answers the visitor. Only transform, opacity and the independent scale/translate properties. */
+:root{--out:cubic-bezier(.23,1,.32,1)}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes pillIn{from{opacity:0;transform:translateY(-26px) rotate(-9deg) scale(.9)}to{opacity:1;transform:rotate(-2.5deg)}}
+@keyframes tin{from{opacity:0;scale:.55}to{opacity:1;scale:1}}
+@keyframes brainIn{from{opacity:0;transform:translateY(34px) scale(.82)}to{opacity:1;transform:none}}
+@keyframes breathe{0%,100%{scale:1 1}50%{scale:1.012 1.03}}
+@keyframes nudge{0%,68%,100%{translate:0}78%{translate:9px}88%{translate:2px}}
+@keyframes wave{from{opacity:.55;transform:translate(-50%,-50%) scale(.3)}to{opacity:0;transform:translate(-50%,-50%) scale(2.3)}}
+@keyframes shiver{0%,100%{translate:0 0}25%{translate:calc(var(--rot)*-2.4px) 0}50%{translate:calc(var(--rot)*1.2px) calc(var(--rot)*1px)}75%{translate:calc(var(--rot)*2.4px) 0}}
+.js .hero:not(.play) :is(h1,.lede,.slide,.hint,.tile,.brain svg,.bubble,.floorwrap,.cast){opacity:0}
+.hero.play .bubble{animation:tin .5s var(--pop) .95s backwards}
+.hero.play .floorwrap{animation:up 1s var(--out) 0s backwards}
+.hero.play h1{animation:up .7s var(--out) .05s backwards}
+.hero.play h1 .pill{animation:pillIn .9s var(--pop) .3s backwards}
+.hero.play .lede{animation:up .7s var(--out) .4s backwards}
+.hero.play .slide{animation:up .7s var(--out) .52s backwards}
+.hero.play .hint{animation:up .7s var(--out) .62s backwards}
+.hero.play .tile{animation:tin .65s var(--out) calc(.25s + var(--i,0)*70ms) backwards,bob var(--d,5s) ease-in-out infinite alternate}
+.brain svg{transform-origin:50% 100%}
+.hero.play .brain svg{animation:brainIn .85s var(--pop) .15s backwards,breathe 4.2s ease-in-out 1.2s infinite}
+.slide:not(.done):not(.used) .knob .ar{animation:nudge 3.4s var(--out) 1.6s infinite}
+.wave{position:absolute;left:50%;top:64%;width:44%;aspect-ratio:1;border-radius:50%;border:4px solid var(--amber);opacity:0;pointer-events:none;z-index:4}
+.wave.go{animation:wave .8s var(--out) both}
+.rotbrain.shiver{animation:shiver .22s linear infinite}
+
 /* sections */
 section{padding:110px 0}
 .calc{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:44px}
 .range label{display:flex;justify-content:space-between;gap:16px;font-weight:700;margin-bottom:14px}
 .range output{font-weight:900;font-size:1.3rem;font-variant-numeric:tabular-nums}
-input[type=range]{--p:20%;width:100%;height:44px;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
+input[type=range]{--p:0%;width:100%;height:44px;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
 input[type=range]::-webkit-slider-runnable-track{height:12px;border-radius:99px;background:linear-gradient(90deg,var(--amber) var(--p),var(--inset) var(--p))}
 input[type=range]::-moz-range-track{height:12px;border-radius:99px;background:linear-gradient(90deg,var(--amber) var(--p),var(--inset) var(--p))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-11px;border-radius:50%;background:var(--pill-bg);border:5px solid var(--paper);box-shadow:0 2px 8px rgba(0,0,0,.25)}
@@ -142,7 +219,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 .result img{position:absolute;right:-18px;top:-46px;width:118px;transform:rotate(10deg);filter:drop-shadow(0 12px 10px var(--shadow))}
 
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:52px;align-items:start}
-.step img{width:100%;border-radius:28px;box-shadow:0 30px 50px -24px var(--shadow)}
+.step img{width:100%;height:auto;border-radius:28px;box-shadow:0 30px 50px -24px var(--shadow)}
 .step:nth-child(2){margin-top:56px}
 .step:nth-child(3){margin-top:16px}
 .step h3{margin-top:22px}
@@ -197,17 +274,53 @@ footer nav{display:flex;gap:24px}
 </style>
 </head>
 <body>
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');try{history.scrollRestoration='manual'}catch(e){}if(!location.hash)scrollTo(0,0)</script>
 <header class="top"><div class="wrap">
  <a class="logo" href="#"><img src="brain.png" alt="">SwipeLater</a>
  <a class="btn sm" href="#get">Get early access</a>
 </div></header>
 
 <main>
-<div class="wrap hero">
+<section id="cost"><div class="wrap">
+ <h2 class="rise">Where does your<br><span class="pill">day go?</span></h2>
+ <p class="sub rise">Drag to your own number. Not sure? Screen Time in Settings knows.</p>
+ <div class="calc">
+  <div class="rise">
+   <div class="range">
+    <label for="hrs"><span>Hours a day on apps you'd rather skip</span><output id="hrsOut">0.0 h</output></label>
+    <input id="hrs" type="range" min="0" max="8" step="0.5" value="0">
+   </div>
+   <p class="chiplabel" id="chipLabel">How much of that would you want back?</p>
+   <div class="chips" role="group" aria-labelledby="chipLabel">
+    <button type="button" data-k="0.25" aria-pressed="false">A quarter</button>
+    <button type="button" data-k="0.5" aria-pressed="true">Half</button>
+    <button type="button" data-k="1" aria-pressed="false">All of it</button>
+   </div>
+   <p class="src">For scale: US teens say they spend about 4.8 hours a day on social media alone. <a href="https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx" target="_blank" rel="noopener">Gallup, 2023</a>.</p>
+  </div>
+  <div class="result rise">
+   <div class="big" id="days" aria-live="polite">0</div>
+   <p class="bigcap">whole days of your life back, every year<small id="daysSmall">That is 0 hours.</small></p>
+   <div class="daybar" aria-hidden="true"><i id="dbFill"></i></div>
+   <p class="dbcap" id="dbCap">Drag the dot to start.</p>
+   <svg id="calcBrain" width="0" height="0" aria-hidden="true"></svg>
+  </div>
+ </div>
+
+ <div class="verdict" id="verdict" hidden aria-live="polite">
+  <div class="vtext">
+   <h3 id="vHead"></h3>
+   <p class="vstat" id="vStat"></p>
+   <p class="vsrc"><a id="vLink" target="_blank" rel="noopener"></a> <span id="vNote"></span></p>
+  </div>
+  <a class="btn vgo" href="#lock" id="vGo">Fix it with one slide <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+ </div>
+</div></section>
+
+<div class="wrap hero" id="lock">
  <div>
   <h1>Your distractions<br><span class="pill">can wait.</span></h1>
-  <p class="lede">SwipeLater locks the apps that pull you away. <b>Slide once.</b> Everything else waits until the timer ends.</p>
+  <p class="lede">SwipeLater locks the apps that pull you away. <b>Slide once,</b> and they wait until your timer ends.</p>
   <div class="slide" id="slide" role="button" tabindex="0" aria-label="Slide to lock in. Try the demo.">
    <div class="fill" id="fill"></div>
    <div class="label" id="label"><i>SLIDE TO LOCK IN</i></div>
@@ -216,8 +329,8 @@ footer nav{display:flex;gap:24px}
     <svg class="ck" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
    </div>
   </div>
-  <button class="endbtn" id="end" type="button">End the demo</button>
-  <p class="hint" id="hint" aria-live="polite"><span>Try it right here.</span></p>
+  <button class="endbtn" id="end" type="button">Stop the demo</button>
+  <p class="hint" id="hint" aria-live="polite"><span>Go on, try it.</span></p>
  </div>
 
  <div class="stage" id="stage" aria-label="Demo: the pink brain mascot surrounded by distracting apps and notifications">
@@ -225,6 +338,7 @@ footer nav{display:flex;gap:24px}
   <div id="tiles" aria-hidden="true"></div>
   <div class="notes" id="notes" aria-live="off"></div>
   <div class="timer" id="timerPill" aria-hidden="true"><b id="time">25:00</b><span>Locked in</span></div>
+  <i class="wave" id="wave" aria-hidden="true"></i>
   <div class="cast" style="left:30%;width:40%;bottom:6%;height:7%" aria-hidden="true"></div>
   <div class="brain" id="brain" aria-hidden="true"></div>
   <div class="bubble" id="bubble" aria-hidden="true">So many pings&hellip;</div>
@@ -232,52 +346,30 @@ footer nav{display:flex;gap:24px}
  </div>
 </div>
 
-<section id="cost"><div class="wrap">
- <h2 class="rise">Where does the<br><span class="pill">time go?</span></h2>
- <p class="sub rise">Move the slider to your own number. Not sure? Check Screen Time in Settings.</p>
- <div class="calc">
-  <div class="rise">
-   <div class="range">
-    <label for="hrs"><span>Hours a day on apps you'd rather not</span><output id="hrsOut">2.0 h</output></label>
-    <input id="hrs" type="range" min="0.5" max="8" step="0.5" value="2">
-   </div>
-   <div class="chips" role="group" aria-label="If you won back">
-    <button type="button" data-k="0.25" aria-pressed="false">Win back 25%</button>
-    <button type="button" data-k="0.5" aria-pressed="true">Win back half</button>
-    <button type="button" data-k="1" aria-pressed="false">All of it</button>
-   </div>
-   <p class="src">For reference: US teens report about 4.8 hours a day on social media alone. <a href="https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx" target="_blank" rel="noopener">Gallup, 2023</a>.</p>
-  </div>
-  <div class="result rise">
-   <div class="big" id="days" aria-live="polite">15</div>
-   <p class="bigcap">full days back every year<small id="daysSmall">That is 365 hours.</small></p>
-   <svg id="calcBrain" width="0" height="0" aria-hidden="true"></svg>
-  </div>
- </div>
-</div></section>
+
 
 <section id="how"><div class="wrap">
- <h2 class="rise">Three moves.<br><span class="pill">That's it.</span></h2>
+ <h2 class="rise">Three steps.<br><span class="pill">That's all.</span></h2>
  <div class="steps">
-  <div class="step rise"><img src="assets/shots/pick.webp" width="660" height="1434" loading="lazy" alt="SwipeLater app: pick your time, then slide to lock in."><h3>Pick a task and a time</h3><p>One thing, not a to-do list. 25 minutes is a great start.</p></div>
-  <div class="step rise"><img src="assets/shots/lock.webp" width="660" height="1434" loading="lazy" alt="SwipeLater app: a running session with apps blocked until 6:54."><h3>Slide. Your apps wait.</h3><p>The apps you picked stay locked until the clock hits zero. Then they're all back.</p></div>
-  <div class="step rise"><img src="assets/shots/friend.webp" width="660" height="1434" loading="lazy" alt="SwipeLater app: ask a friend to let you out early."><h3>Need out early? Ask a friend.</h3><p>A friend can let you out. Or just end it. No guilt trips.</p></div>
+  <div class="step rise"><img src="assets/shots/pick.webp" width="660" height="1434" loading="lazy" alt="SwipeLater app: pick your time, then slide to lock in."><h3>Pick a task and a time</h3><p>One thing, not a whole to-do list. 25 minutes is a good start.</p></div>
+  <div class="step rise"><img src="assets/shots/lock.webp" width="660" height="1434" loading="lazy" alt="SwipeLater app: a running session with apps blocked until 6:54."><h3>Slide. Your apps wait.</h3><p>The apps you picked stay locked until the timer ends. Then they're all back, right where you left them.</p></div>
+  <div class="step rise"><img src="assets/shots/friend.webp" width="660" height="1434" loading="lazy" alt="SwipeLater app: ask a friend to let you out early."><h3>Need out early? Ask a friend.</h3><p>A friend can let you out, or you can end it yourself. No guilt trips.</p></div>
  </div>
 </div></section>
 
 <section id="why"><div class="wrap">
  <h2 class="rise">It's not a<br><span class="pill">willpower thing.</span></h2>
- <p class="sub rise">Apps are built to pull you back. A small speed bump works better than trying harder.</p>
+ <p class="sub rise">Apps are built to keep you scrolling. A speed bump works better than trying harder.</p>
  <div class="facts">
-  <div class="fact rise"><b>70%</b><p>of US adults under 30 say they spend too much time on their phone.</p><a href="https://www.pewresearch.org/short-reads/2026/09/01/about-half-of-americans-say-they-spend-too-much-time-on-their-smartphone/" target="_blank" rel="noopener">Pew Research Center, 2026</a></div>
+  <div class="fact rise"><b data-n="70" data-s="%">70%</b><p>of US adults under 30 say they spend too much time on their phone.</p><a href="https://www.pewresearch.org/short-reads/2026/09/01/about-half-of-americans-say-they-spend-too-much-time-on-their-smartphone/" target="_blank" rel="noopener">Pew Research Center, 2026</a></div>
   <div class="fact rise"><b>4 in 10</b><p>US teens say they are online almost constantly.</p><a href="https://www.pewresearch.org/internet/2025/12/09/teens-social-media-and-ai-chatbots-2025/" target="_blank" rel="noopener">Pew Research Center, 2025</a></div>
-  <div class="fact rise"><b>22 min</b><p>less social media a day when people set their own app limits. Study in adults.</p><a href="https://siepr.stanford.edu/news/hooked-your-smartphone" target="_blank" rel="noopener">Allcott, Gentzkow &amp; Song, Stanford</a></div>
+  <div class="fact rise"><b data-n="22" data-s=" min">22 min</b><p>less social media a day when people set their own app limits. A study of adults.</p><a href="https://siepr.stanford.edu/news/hooked-your-smartphone" target="_blank" rel="noopener">Allcott, Gentzkow &amp; Song, Stanford</a></div>
  </div>
  <div class="real">
-  <h2 class="rise" style="font-size:clamp(2rem,4.4vw,3.2rem)">Made for real life,<br>not a monk.</h2>
+  <h2 class="rise" style="font-size:clamp(2rem,4.4vw,3.2rem)">Made for real life,<br>not for monks.</h2>
   <ul class="rise">
-   <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></i>Uses Apple's Screen Time. Your usage stays on your phone.</li>
-   <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M6 18L18 6"/></svg></i>No account. No ads. No tracking.</li>
+   <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg></i>Built on Apple's Screen Time. What you do stays on your phone.</li>
+   <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M6 18L18 6"/></svg></i>No account, no ads, no tracking.</li>
    <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 14.2A4.6 4.6 0 0 1 21 18.6"/></svg></i>A friend can let you out early.</li>
    <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></i>Your Windows PC can lock in with you.</li>
   </ul>
@@ -287,22 +379,23 @@ footer nav{display:flex;gap:24px}
 <section id="faq"><div class="wrap">
  <h2 class="rise">Quick<br><span class="pill">answers.</span></h2>
  <div class="faq rise">
-  <details><summary>Is it free?</summary><p>Yes. The core app is free. Plus adds Locked mode, where there is no quit button, and PC pairing.</p></details>
-  <details><summary>Can I still get calls and texts?</summary><p>Yes. You pick which apps get locked. Everything else works as normal.</p></details>
-  <details><summary>What if I really need to get out?</summary><p>In normal mode you can end a session any time. In Locked mode a friend can let you out, or you get one emergency exit a week.</p></details>
-  <details><summary>Can SwipeLater see what I do on my phone?</summary><p>No. Apple's Screen Time keeps that data on your device. We never get it.</p></details>
-  <details><summary>When is it out?</summary><p>It's in testing now on iPhone. Ask for early access and we'll send you a test invite.</p></details>
+  <details><summary>Is it free?</summary><p>Yes, the main app is free. Plus adds Locked mode (no quit button) and PC pairing.</p></details>
+  <details><summary>Will I still get calls and texts?</summary><p>Yes. You choose which apps get locked. Everything else works like normal.</p></details>
+  <details><summary>What if I really need to get out?</summary><p>In normal mode you can end a session whenever you want. In Locked mode a friend can let you out, or you can use your one emergency exit a week.</p></details>
+  <details><summary>Can SwipeLater see what I do on my phone?</summary><p>No. Apple's Screen Time keeps that on your phone, and we never see it.</p></details>
+  <details><summary>When is it out?</summary><p>It's in testing on iPhone right now. Ask for early access and we'll send you an invite.</p></details>
  </div>
 </div></section>
 
 <section class="final" id="get"><div class="wrap">
  <div class="brainmini" id="finalBrain" aria-hidden="true"></div>
  <h2 class="rise">Your distractions<br><span class="pill">can wait.</span></h2>
- <p class="sub rise">SwipeLater is in testing on iPhone. Get an early invite before it hits the App Store.</p>
+ <p class="sub rise">SwipeLater is in testing on iPhone. Get an invite before it reaches the App Store.</p>
  <a class="btn rise" href="mailto:help@swipelater.app?subject=Early%20access%20to%20SwipeLater&amp;body=Hi!%20I%27d%20like%20to%20try%20SwipeLater%20on%20my%20iPhone.">Get early access</a>
  <p class="sub rise" style="font-size:.95rem;margin-top:18px">iPhone only. Free to try.</p>
 </div></section>
 </main>
+<div class="opening" id="opening" aria-hidden="true"><div id="openBrain"></div><p>Opening the App Store&hellip;</p></div>
 
 <footer><div class="wrap">
  <span>&copy; 2026 SwipeLater</span>
@@ -324,6 +417,8 @@ footer nav{display:flex;gap:24px}
   guard: {eyes: 'LR', mouth: 1, svg: `<path d="M148 176 L196 190" stroke="${P}" stroke-width="10" stroke-linecap="round"/><path d="M307 176 L259 190" stroke="${P}" stroke-width="10" stroke-linecap="round"/>`},
   stars: {eyes: '', mouth: 1.3, svg: star(175, 209, 27) + star(280, 209, 27)},
   happy: {eyes: '', mouth: 1, svg: arcEye(175) + arcEye(280)},
+  sad: {eyes: 'LR', dy: 9, mouth: 0, svg: `<path d="M148 190 L196 172" stroke="${P}" stroke-width="9" stroke-linecap="round"/><path d="M307 190 L259 172" stroke="${P}" stroke-width="9" stroke-linecap="round"/><path d="M204 276 q24 -22 48 0" fill="none" stroke="${P}" stroke-width="9" stroke-linecap="round"/><path d="M163 256 q10 16 0 24 q-10 -8 0 -24z" fill="#9FD3F2" stroke="${P}" stroke-width="4"/>`},
+  rot: {eyes: '', mouth: 0, svg: `<g stroke="${P}" stroke-width="9" stroke-linecap="round"><path d="M158 196 L192 228 M192 196 L158 228"/><path d="M263 196 L297 228 M297 196 L263 228"/></g><path d="M200 268 q7 -10 14 0 t14 0 t14 0 t14 0" fill="none" stroke="${P}" stroke-width="8" stroke-linecap="round"/><path d="M226 272 q10 28 26 12 q4 -12 -4 -18z" fill="#9BC46B" stroke="${P}" stroke-width="4" stroke-linejoin="round"/>`},
   wink: {eyes: 'L', mouth: 1, svg: arcEye(280)},
  };
  const face = name => { const f = FACES[name], dx = f.dx || 0, dy = f.dy || 0;
@@ -340,9 +435,20 @@ footer nav{display:flex;gap:24px}
  }
  setFace('unsure');
  $('finalBrain').innerHTML = face('wink');
- const calcBrain = $('calcBrain'); const cb = document.createElement('div');
- cb.innerHTML = face('stars'); cb.firstChild.setAttribute('class', 'cb'); cb.style.cssText = 'position:absolute;right:-18px;top:-52px;width:118px;transform:rotate(10deg);filter:drop-shadow(0 12px 10px var(--shadow))';
- calcBrain.replaceWith(cb);
+ /* the brain in the result card rots as the number grows: colour, slump, face, flies, a line of speech */
+ const wrap = document.createElement('div'); wrap.className = 'rotwrap'; wrap.setAttribute('aria-hidden', 'true');
+ wrap.innerHTML = '<div class="rotbrain" id="rotBrain"></div><span class="fly f1"></span><span class="fly f2"></span><span class="fly f3"></span><div class="cbsay" id="cbSay"></div>';
+ $('calcBrain').replaceWith(wrap);
+ const SAY = [[0, 'All good here.'], [.12, 'Feeling fine.'], [.3, 'A bit foggy...'], [.5, 'My head hurts.'], [.72, "Can't think..."], [.9, "I'm rotting here..."]];
+ let rotFace = '';
+ function rotUpdate(h){
+  const r = Math.min(1, h / 8), el = $('rotBrain'); wrap.style.setProperty('--rot', r.toFixed(3));
+  el.classList.toggle('shiver', r >= .5 && !reduce);
+  const f = r < .2 ? 'happy' : r < .4 ? 'unsure' : r < .65 ? 'sad' : 'rot';
+  if (f !== rotFace) { rotFace = f; el.innerHTML = face(f); }
+  $('cbSay').textContent = SAY.filter(x => r >= x[0]).pop()[1];
+ }
+
 
  /* ---------- distraction tiles: category symbols, never real app logos ---------- */
  const G = {
@@ -362,7 +468,7 @@ footer nav{display:flex;gap:24px}
   ['bag', '#171513', 16, 66, 14, 8, 0, 6], ['music', '#C95B86', 72, 63, 15, -8, 0, 6],
  ];
  $('tiles').innerHTML = TILES.map(([k, c, l, t, s, r, far, z], i) =>
-  `<div class="tile${far ? ' far' : ''}" style="--c:${c};--s:${s}%;left:${l}%;top:${t}%;--r:${r}deg;--z:${z};--d:${4 + i * .7}s"><svg class="g" viewBox="0 0 24 24">${glyph(k, c).replace(/^<svg class="g" viewBox="0 0 24 24">|<\/svg>$/g, '')}</svg><span class="lk" style="transition-delay:${i * 70}ms">${LOCK}</span></div>`).join('');
+  `<div class="tile${far ? ' far' : ''}" style="--c:${c};--s:${s}%;left:${l}%;top:${t}%;--r:${r}deg;--z:${z};--d:${4 + i * .7}s;--i:${i}" data-r="${r}" data-dz="${far ? 8 : 20}"><svg class="g" viewBox="0 0 24 24">${glyph(k, c).replace(/^<svg class="g" viewBox="0 0 24 24">|<\/svg>$/g, '')}</svg><span class="lk" style="transition-delay:${i * 70}ms">${LOCK}</span></div>`).join('');
  // squares need a width-based height: size the tiles by the stage width
  const stage = $('stage');
  const sizeTiles = () => stage.querySelectorAll('.tile').forEach(t => { const s = parseFloat(t.style.getPropertyValue('--s')) / 100 * stage.clientWidth; t.style.width = s + 'px'; t.style.fontSize = s / 9 + 'px'; });
@@ -379,7 +485,7 @@ footer nav{display:flex;gap:24px}
  function springTo(t, vel = 0, z = 1, r = .35){ target = t; v = vel; zeta = z; resp = r; if (reduce) { x = t; v = 0; paint(); return; } if (!raf) step(performance.now()); }
  const rubber = (o, d, c = .55) => (o * d * c) / (d + c * Math.abs(o));
  let dragging = false, start = 0, origin = 0, hist = [], locked = false;
- slide.addEventListener('pointerdown', e => { if (locked) return; dragging = true; slide.setPointerCapture(e.pointerId); cancelAnimationFrame(raf); raf = 0; start = e.clientX; origin = x; hist = [{x: e.clientX, t: e.timeStamp}]; });
+ slide.addEventListener('pointerdown', e => { slide.classList.add('used'); if (locked) return; dragging = true; slide.setPointerCapture(e.pointerId); cancelAnimationFrame(raf); raf = 0; start = e.clientX; origin = x; hist = [{x: e.clientX, t: e.timeStamp}]; });
  slide.addEventListener('pointermove', e => { if (!dragging) return; let nx = origin + (e.clientX - start); const m = max();
   if (nx < 0) nx = -rubber(-nx, 60); else if (nx > m) nx = m + rubber(nx - m, 60); x = nx; paint(); hist.push({x: e.clientX, t: e.timeStamp}); if (hist.length > 6) hist.shift(); });
  const release = e => { if (!dragging) return; dragging = false; const a = hist[0], b = hist[hist.length - 1];
@@ -416,21 +522,26 @@ footer nav{display:flex;gap:24px}
   slide.dataset.locked = 'true'; slide.classList.add('done'); slide.setAttribute('aria-label', 'Locked in. Demo running.');
   label.innerHTML = '<i>LOCKED IN</i>'; label.style.opacity = 1; label.style.paddingLeft = '0'; label.style.paddingRight = '66px';
   stage.classList.add('locked');
+  { const w = $('wave'); w.classList.remove('go'); void w.offsetWidth; w.classList.add('go'); }
   [...notes.children].forEach((n, i) => { n.classList.add('blocked'); setTimeout(() => { n.classList.add('out'); setTimeout(() => n.remove(), 450); waiting++; count.textContent = waiting; }, 500 + i * 150); });
   setFace('guard', 'Not now, feed.');
-  end.classList.add('on'); hint.querySelector('span').textContent = 'Everything that pings now has to wait.';
+  end.classList.add('on'); hint.querySelector('span').textContent = 'Everything that pings has to wait now.';
   if (navigator.vibrate) navigator.vibrate(12);
   secs = 1500; $('time').textContent = fmt(secs); clearInterval(timer);
   timer = setInterval(() => { secs = Math.max(0, secs - 1); $('time').textContent = fmt(secs); }, 1000);
   loopNotes();
   // After a beat to see the lock land, send them on. Set APP_URL when the app is live on the App Store.
-  setTimeout(() => { if (!locked) return; if (APP_URL) location.href = APP_URL; else $('get').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}); }, 1800);
+  setTimeout(() => { if (!locked) return;
+   if (!APP_URL) { $('get').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}); return; }
+   $('openBrain').innerHTML = face('wink'); $('opening').classList.add('on');
+   setTimeout(() => { location.href = APP_URL; }, reduce ? 100 : 700); }, 1800);
  }
+ addEventListener('pageshow', () => $('opening').classList.remove('on'));
  end.addEventListener('click', () => {
   locked = false; clearInterval(timer); stage.classList.remove('locked'); end.classList.remove('on');
   slide.dataset.locked = 'false'; slide.classList.remove('done'); slide.setAttribute('aria-label', 'Slide to lock in. Try the demo.');
   label.innerHTML = '<i>SLIDE TO LOCK IN</i>'; label.style.paddingLeft = ''; label.style.paddingRight = ''; springTo(0, 0, 1, .4);
-  hint.querySelector('span').textContent = `${waiting} things waited. None of them mattered.`;
+  hint.querySelector('span').textContent = (waiting ? `${waiting} things waited. You didn't miss a thing.` : 'Nothing pinged. Nice.');
   setFace('stars', 'Look at us go!'); setTimeout(() => { if (!locked) setFace('unsure', 'So many pings…'); }, 5000);
   waiting = 0; count.textContent = 0; loopNotes();
  });
@@ -440,18 +551,70 @@ footer nav{display:flex;gap:24px}
  /* ---------- calculator ---------- */
  const hrs = $('hrs'), out = $('hrsOut'), days = $('days'), small = $('daysSmall');
  let share = .5, shown = 0, animId = 0;
- const ideas = [[0, 'Enough for a lot of sleep.'], [100, 'Enough to read about 30 books.'], [250, 'Enough to learn the basics of a new language.'], [500, 'Enough to learn an instrument to a solid level.'], [900, 'That is more than a full-time job for half a year.']];
+ const ideas = [[0, "That's a lot of sleep."], [100, "That's about 30 books."], [250, 'Enough to pick up a new language.'], [500, 'Enough to get properly good at an instrument.'], [900, "That's a full-time job for half a year."]];
  function calc(){
-  const h = +hrs.value; out.textContent = h.toFixed(1) + ' h'; hrs.style.setProperty('--p', ((h - .5) / 7.5 * 100) + '%');
+  const h = +hrs.value; out.textContent = h.toFixed(1) + ' h'; hrs.style.setProperty('--p', (h / 8 * 100) + '%');
+  showVerdict(h); rotUpdate(h);
+  const tidy = n => n.toFixed(1).replace(/\.0$/, ''); $('dbFill').style.width = (share * 100) + '%';
+  $('dbCap').textContent = h === 0 ? 'Drag the dot to start.' : `You'd win back ${tidy(h * share)} h of your ${tidy(h)} h, every day.`;
   const hours = h * share * 365, d = hours / 24, idea = ideas.filter(i => hours >= i[0]).pop()[1];
-  small.textContent = `That is ${Math.round(hours)} hours. ${idea}`;
+  small.textContent = hours === 0 ? 'Move the slider to see your year.' : `That's ${Math.round(hours)} hours. ${idea}`;
   cancelAnimationFrame(animId); const from = shown, to = d, t0 = performance.now(), dur = reduce ? 0 : 450;
   const run = t => { const p = dur ? Math.min(1, (t - t0) / dur) : 1, e = 1 - Math.pow(1 - p, 3); shown = from + (to - from) * e; days.textContent = Math.round(shown); if (p < 1) animId = requestAnimationFrame(run); };
   animId = requestAnimationFrame(run);
  }
  hrs.addEventListener('input', calc);
- document.querySelectorAll('.chips button').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('.chips button').forEach(o => o.setAttribute('aria-pressed', o === b)); share = +b.dataset.k; calc(); }));
+ document.querySelectorAll('.chips button').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('.chips button').forEach(o => o.setAttribute('aria-pressed', o === b)); share = +b.dataset.k; calc(); const r = document.querySelector('.result'); r.classList.add('bump'); setTimeout(() => r.classList.remove('bump'), 260); }));
+
+
+ /* ---------- verdict: what the studies say about the number they picked ---------- */
+ const TIERS = [
+  {max: .5, head: "That's a light one. Keep it there.", stat: 'A Penn study had students cut Facebook, Instagram and Snapchat to about 30 minutes a day. After 3 weeks they felt less lonely and less down.', src: 'Hunt et al., 2018', url: 'https://doi.org/10.1521/jscp.2018.37.10.751', note: '143 college students. A small study.'},
+  {max: 2.5, head: 'It adds up faster than it feels.', stat: "Even a silent phone on your desk costs you focus. In two experiments with about 800 people, those whose phone was in another room did better on attention tests. It didn't even have to buzz.", src: 'Ward et al., 2017', url: 'https://doi.org/10.1086/691462', note: 'It hit hardest for people who lean on their phone most.'},
+  {max: 4.5, head: "That's a big chunk of your day.", stat: 'Among US 12 to 15 year olds, those on social media more than 3 hours a day were more likely to report anxiety, depression and loneliness.', src: 'Riehm et al., JAMA Psychiatry, 2019', url: 'https://doi.org/10.1001/jamapsychiatry.2019.2325', note: 'It shows a link, not proof of cause.'},
+  {max: 99, head: "That's more than most people.", stat: 'US teens say they spend about 4.8 hours a day on social media. And the heaviest users in the study above were the most likely to report anxiety, depression and loneliness.', src: 'Gallup, 2023', url: 'https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx', note: 'The 4.8 hours counts social media only.'},
+ ];
+ const verdict = $('verdict'); let vTier = -1;
+ function showVerdict(h){
+  if (h <= 0) { verdict.hidden = true; vTier = -1; return; }
+  const i = TIERS.findIndex(t => h <= t.max), t = TIERS[i];
+  if (i === vTier) return; vTier = i;
+  const fill = () => { $('vHead').textContent = t.head; $('vStat').textContent = t.stat; $('vNote').textContent = t.note; const a = $('vLink'); a.textContent = t.src; a.href = t.url; };
+  if (verdict.hidden) { fill(); verdict.hidden = false; verdict.classList.remove('in'); void verdict.offsetWidth; if (!reduce) verdict.classList.add('in'); }
+  else { verdict.classList.add('swap'); setTimeout(() => { fill(); verdict.classList.remove('swap'); }, reduce ? 0 : 160); }
+ }
+ $('vGo').addEventListener('click', e => { e.preventDefault(); slide.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'center'});
+  setTimeout(() => { slide.classList.remove('ping'); void slide.offsetWidth; slide.classList.add('ping'); setTimeout(() => slide.classList.remove('ping'), 2000); }, reduce ? 0 : 650); });
+ const hdr = document.querySelector('header.top'); addEventListener('scroll', () => hdr.classList.toggle('sc', scrollY > 8), {passive: true});
  calc();
+
+ /* ---------- the hero plays its entrance when it scrolls into view, not while it is off screen ---------- */
+ {
+  const heroEl = document.querySelector('.hero');
+  if (reduce) heroEl.classList.add('play');
+  else new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { heroEl.classList.add('play'); o.disconnect(); } }, {threshold: .25}).observe(heroEl);
+ }
+
+ /* ---------- pointer depth: near things drift more than far things (mouse only) ---------- */
+ if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const items = [...stage.querySelectorAll('.tile')].map(t => ({el: t, dz: +t.dataset.dz, r: +t.dataset.r}));
+  const bEl = $('brain'), nEl = $('notes'), hero = document.querySelector('.hero');
+  let tx = 0, ty = 0, cx = 0, cy = 0, run = 0;
+  const loop = () => { cx += (tx - cx) * .08; cy += (ty - cy) * .08;
+   items.forEach(i => { i.el.style.transform = `translate3d(${(cx * i.dz).toFixed(2)}px,${(cy * i.dz).toFixed(2)}px,0) rotate(${i.r}deg)`; });
+   bEl.style.translate = `${(cx * 7).toFixed(2)}px ${(cy * 5).toFixed(2)}px`; nEl.style.translate = `${(cx * -8).toFixed(2)}px ${(cy * -6).toFixed(2)}px`;
+   run = (Math.abs(tx - cx) > .001 || Math.abs(ty - cy) > .001) ? requestAnimationFrame(loop) : 0; };
+  hero.addEventListener('pointermove', e => { const r = stage.getBoundingClientRect(), c = v => Math.max(-1, Math.min(1, v));
+   tx = c((e.clientX - (r.left + r.width / 2)) / (r.width / 1.2)); ty = c((e.clientY - (r.top + r.height / 2)) / (r.height / 1.2)); if (!run) run = requestAnimationFrame(loop); });
+  hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; if (!run) run = requestAnimationFrame(loop); });
+ }
+
+ /* ---------- numbers count up once when they scroll into view ---------- */
+ const co = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; co.unobserve(e.target);
+  const el = e.target, n = +el.dataset.n, sfx = el.dataset.s || '', t0 = performance.now();
+  const tick = t => { const p = Math.min(1, (t - t0) / 1100), k = 1 - Math.pow(1 - p, 4); el.textContent = Math.round(n * k) + sfx; if (p < 1) requestAnimationFrame(tick); };
+  requestAnimationFrame(tick); }), {threshold: .6});
+ if (!reduce) document.querySelectorAll('[data-n]').forEach(el => { el.textContent = '0' + (el.dataset.s || ''); co.observe(el); });
 
  /* ---------- entrances: once, staggered by order inside each section ---------- */
  const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target;
