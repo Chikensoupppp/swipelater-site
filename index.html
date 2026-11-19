@@ -50,6 +50,7 @@ header.top .wrap{display:flex;align-items:center;justify-content:space-between;h
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;background:var(--pill-bg);color:var(--pill-fg);font-weight:800;text-decoration:none;transition:transform .15s var(--ease)}
 .btn:active{transform:scale(.97)}
 .btn.sm{min-height:44px;padding:0 18px;font-size:.95rem}
+.hnav{display:flex;align-items:center;gap:18px}.hlink{font-weight:800;text-decoration:none;color:var(--soft);padding:10px 4px}.hlink:hover{color:var(--ink)}
 
 /* hero */
 #cost{padding:48px 0 40px}
@@ -244,6 +245,39 @@ summary::after{content:"+";font-size:1.6rem;font-weight:500;transition:transform
 details[open] summary::after{transform:rotate(45deg)}
 details p{margin:0 0 20px;color:var(--soft);max-width:60ch}
 
+/* the PC section: a tilted Windows window with the buddy, same ink-and-plum shadows as the tiles */
+#pc{padding:96px 0}
+.pcgrid{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
+.pcbtns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.win svg{width:18px;height:18px;margin-right:10px}
+.pcfine{color:var(--soft);font-size:.95rem;margin:16px 0 0}
+.pcstage{position:relative;justify-self:center;width:min(520px,100%);padding:26px 0 44px}
+.pcwin{position:relative;border-radius:18px;background:var(--card);transform:rotate(-2.2deg);overflow:hidden;
+ box-shadow:0 .5em 0 var(--plum),0 2.2em 2.4em -.8em var(--shadow),0 0 0 2px var(--ink)}
+.pcbar{display:flex;align-items:center;gap:7px;height:38px;padding:0 14px;background:var(--ink);color:var(--paper);font-weight:800;font-size:.82rem;letter-spacing:.02em}
+.pcbar i{width:11px;height:11px;border-radius:50%;background:var(--paper);opacity:.35}
+.pcbar i:first-child{opacity:.9;background:var(--amber)}
+.pcbar span{margin-left:8px}
+.pcbody{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;padding:26px 24px 28px}
+.pcring{position:relative;width:132px;aspect-ratio:1}
+.pcring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pcring .tr{stroke:var(--inset)}.pcring .pr{stroke:var(--amber);stroke-dasharray:402;stroke-dashoffset:402;animation:ringfill 2.4s var(--ease) .3s forwards}
+.pcring b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.55rem;font-weight:900;letter-spacing:-.04em}
+@keyframes ringfill{to{stroke-dashoffset:96}}
+.pcinfo small{display:block;color:var(--soft);font-weight:800;font-size:.7rem;letter-spacing:.16em}
+.pcinfo strong{display:block;font-size:1.35rem;font-weight:900;letter-spacing:-.035em;line-height:1.1;margin:6px 0}
+.pcinfo p{margin:0;color:var(--soft);font-size:.92rem;line-height:1.35}
+.pcbuddy{position:absolute;right:-6px;bottom:0;display:flex;align-items:flex-end;gap:10px;z-index:3}
+.pcbuddy img{width:84px;filter:drop-shadow(0 14px 12px var(--shadow));animation:bob 4s ease-in-out infinite alternate}
+.pcbuddy p{margin:0 0 38px;max-width:190px;padding:11px 15px;border-radius:20px 20px 4px 20px;background:var(--pill-bg);color:var(--pill-fg);font-weight:800;font-size:.86rem;line-height:1.3;
+ box-shadow:0 .3em 0 var(--plum);transform:rotate(1.5deg)}
+.pctag{position:absolute;left:-10px;top:4px;z-index:3;padding:7px 14px;border-radius:999px;background:var(--amber);color:#171513;font-weight:900;font-size:.78rem;letter-spacing:.04em;transform:rotate(-6deg);box-shadow:0 .25em 0 rgba(0,0,0,.2)}
+@media (max-width:860px){
+ #pc{padding:72px 0}.pcgrid{grid-template-columns:1fr;gap:34px}
+ .pcring{width:104px}.pcbody{padding:20px 16px 24px;gap:14px}.pcinfo strong{font-size:1.1rem}.pcinfo p{display:none}.pcbuddy{right:0}.pcbuddy img{width:66px}.pcbuddy p{max-width:150px;font-size:.8rem;margin-bottom:30px}
+}
+@media (prefers-reduced-motion:reduce){.pcring .pr{animation:none;stroke-dashoffset:96}}
 .final{text-align:center;padding:120px 0 80px}
 .final h2{font-size:clamp(2.8rem,7vw,5.4rem)}
 .final .sub{margin:22px auto 34px}
@@ -277,7 +311,7 @@ footer nav{display:flex;gap:24px}
 <script>document.documentElement.classList.add('js');try{history.scrollRestoration='manual'}catch(e){}if(!location.hash)scrollTo(0,0)</script>
 <header class="top"><div class="wrap">
  <a class="logo" href="#"><img src="brain.png" alt="">SwipeLater</a>
- <a class="btn sm" href="#get">Get early access</a>
+ <span class="hnav"><a class="hlink" href="#pc">Windows</a><a class="btn sm" href="#get">Get early access</a></span>
 </div></header>
 
 <main>
@@ -373,6 +407,29 @@ footer nav{display:flex;gap:24px}
    <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.6"/><path d="M15.5 14.2A4.6 4.6 0 0 1 21 18.6"/></svg></i>A friend can let you out early.</li>
    <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></i>Your Windows PC can lock in with you.</li>
   </ul>
+ </div>
+</div></section>
+
+<section id="pc"><div class="wrap pcgrid">
+ <div>
+  <h2 class="rise">Lock in on<br><span class="pill">your PC too.</span></h2>
+  <p class="sub rise">Start a session on your phone and your PC joins in. A little buddy taps you on the shoulder when you drift to a distracting app or start doomscrolling.</p>
+  <div class="pcbtns rise">
+   <a class="btn win" href="https://github.com/Chikensoupppp/lk-dac12ca4eb/releases/latest/download/SwipeLater-PC.exe"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10.5 4.4v7H3zM11.6 4.2 21 2.8v8.6h-9.4zM3 12.6h7.5v7l-7.5-1.1zM11.6 12.6H21v8.6l-9.4-1.3z"/></svg>Download for Windows</a>
+   <a class="btn ghost" href="pc/">Set it up with your phone</a>
+  </div>
+  <p class="pcfine rise">Windows 10 and 11. Signed app. Pairs with the iPhone app over your Wi-Fi.</p>
+ </div>
+ <div class="pcstage rise" aria-hidden="true">
+  <span class="pctag">LOCKED IN</span>
+  <div class="pcwin">
+   <div class="pcbar"><i></i><i></i><i></i><span>SwipeLater</span></div>
+   <div class="pcbody">
+    <div class="pcring"><svg viewBox="0 0 140 140"><circle class="tr" cx="70" cy="70" r="64" fill="none" stroke-width="12"/><circle class="pr" cx="70" cy="70" r="64" fill="none" stroke-width="12" stroke-linecap="round"/></svg><b>24:59</b></div>
+    <div class="pcinfo"><small>RIGHT NOW</small><strong>Focusing, 24:59 left</strong><p>Your phone is locked in. Your PC is too.</p></div>
+   </div>
+  </div>
+  <div class="pcbuddy"><p>Hey. Is YouTube on task?</p><img src="brain.png" alt=""></div>
  </div>
 </div></section>
 
