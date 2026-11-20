@@ -27,23 +27,41 @@
 <body>
 <main>
   <h1>Privacy</h1>
-  <div class="date">SwipeLater (iPhone app) and SwipeLater for Windows &middot; Updated November 19, 2026</div>
+  <div class="date">SwipeLater (iPhone app) and SwipeLater for Windows &middot; Updated November 20, 2026</div>
 
-  <p class="short"><strong>Short version:</strong> SwipeLater has no accounts, no ads and no tracking. We run no
-  servers. Your focus history stays on your devices. We never see it and never sell anything. The only
-  things that leave your phone are what you choose to share with a partner or your own PC, described below.</p>
+  <p class="short"><strong>Short version:</strong> SwipeLater has no accounts, no ads and no tracking across
+  other apps or websites. Your focus history stays on your devices. To make the app better, the iPhone app sends
+  anonymous usage events (for example, which first-run slides you saw and whether a session finished) to our
+  analytics service, PostHog, under a random ID. We never sell anything. Everything else that leaves your phone
+  is what you choose to share with a partner or your own PC, described below.</p>
 
   <h2>What stays on your devices</h2>
-  <p>Your sessions, weekly goal, streak, reminders and the answers you give in the first-run slides are
-  saved only on your iPhone. On your PC, a small week summary and settings are saved in your Windows user
-  folder. Deleting the app deletes them.</p>
+  <p>Your sessions, weekly goal, streak and reminders are saved on your iPhone, and so are the answers you give
+  in the first-run slides (some of those answers are also sent as usage events, see below). On your PC, a small
+  week summary and settings are saved in your Windows user folder. Deleting the app deletes them.</p>
+
+  <h2>Usage analytics</h2>
+  <p>The iPhone app sends events about how it is used to PostHog (posthog.com, servers in the United States), so
+  we can see which parts work and which confuse people. Each event is tied to a random ID the app makes when it is
+  installed, not to your name, email, phone number or Apple ID. The events are:</p>
+  <ul>
+    <li>the app being opened, installed or updated, and which first-run slide you are on;</li>
+    <li>the choices you tap in the first-run slides: your hours guess, what pulls you in, what you want more of,
+    the time you pick and the plan you accept;</li>
+    <li>how many apps you picked to block (the number only, never which apps);</li>
+    <li>sessions started, finished or ended early, and how many minutes they were;</li>
+    <li>whether you bought SwipeLater Plus.</li>
+  </ul>
+  <p>Never sent: your Screen Time numbers (Apple does not let the app read them), the names of your apps, your
+  calendar, anything you share with a partner, and anything from your PC. The events are not used for ads, not
+  sold and not shared with anyone else.</p>
 
   <h2>Screen Time</h2>
   <p>SwipeLater uses Apple's Screen Time tools to block the apps you pick during a focus session. Apple keeps
   this data on your device. SwipeLater cannot read your usage numbers, and none of it is sent anywhere.</p>
 
   <h2>Your calendar</h2>
-  <p>Only if you tap "Can't do 4:00?" and allow it, SwipeLater reads your calendar on your iPhone to find free
+  <p>Only if you tap "Use my calendar" and allow it, SwipeLater reads your calendar on your iPhone to find free
   times for your lock-ins. It looks at when events are and what they are called (so, for example, an away game
   day is left free). It does not save or send any of it. If you turn on "Add to my calendar", it adds its own
   repeating "SwipeLater lock-in" events, and it removes them if you change your time or turn that off. It never
