@@ -100,12 +100,12 @@ kbd{display:inline-block;min-width:1.9em;padding:0 .45em;border-radius:6px;borde
 .quiet:hover{background:rgba(47,87,184,.08)}.quiet:focus-visible{outline:3px solid var(--blue)}
 
 /* Pictures of each step: a soft stage, the real phone, a Windows 11 window. */
-.mock{position:relative;min-height:560px;padding:44px 28px;display:grid;place-items:center;border-radius:32px;background:linear-gradient(180deg,#F4F4F1,#ECECE7);overflow:hidden}
+.mock{position:relative;min-height:440px;padding:44px 28px;display:grid;place-items:center;border-radius:32px;background:linear-gradient(180deg,#F4F4F1,#ECECE7);overflow:hidden}
 .duo{display:flex;align-items:center;justify-content:center;width:100%;max-width:520px}
-.device{position:relative;flex:none;width:250px;z-index:1}
-.device>img{display:block;width:100%;height:auto;filter:drop-shadow(0 34px 34px rgba(30,30,40,.24)) drop-shadow(0 4px 8px rgba(30,30,40,.12))}
-.duo .pcw{width:58%;min-width:0}.duo .device{width:47%;margin-left:-5%}
-.spot{position:absolute;border-radius:16px;pointer-events:none}
+
+
+.duo .pcw{width:min(360px,100%)}
+
 .hl{outline:2.5px solid var(--blue);outline-offset:4px;animation:hl 1.6s ease-in-out infinite}
 @keyframes hl{50%{outline-color:rgba(50,85,164,.28)}}
 
@@ -138,7 +138,7 @@ kbd{display:inline-block;min-width:1.9em;padding:0 .45em;border-radius:6px;borde
 .finish h2{font-size:clamp(40px,6vw,56px)}
 .finish p{color:var(--soft);font-size:19px;line-height:1.45}
 @media (max-width:833px){.panel.on{grid-template-columns:1fr}#nav button span{display:none}.mock{min-height:0;padding:30px 16px}.head{gap:16px}.mini{width:64px;height:64px}}
-@media (max-width:620px){.duo{flex-direction:column;gap:18px}.duo .device{margin-left:0;width:220px}.duo .pcw,.pcw{width:min(300px,100%)}.mini-pcw{position:static;transform:none;margin-top:14px;width:min(240px,100%)}}
+@media (max-width:620px){.duo{flex-direction:column;gap:18px}.duo .pcw,.pcw{width:min(300px,100%)}.mini-pcw{position:static;transform:none;margin-top:14px;width:min(240px,100%)}}
 @media (max-width:520px){.head{flex-direction:column;align-items:flex-start;gap:18px}.head p{font-size:17px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
@@ -179,15 +179,14 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 <section class="panel" id="p1">
  <div><div class="kick">Step 2 of 4</div><h2>Pair your phone</h2>
   <ol class="todo"><li data-hl="m2btn"><i>1</i><span>On your PC, press <b>PAIR MY PHONE</b> in SwipeLater.</span></li>
-   <li data-hl="m2qr"><i>2</i><span>Point your iPhone <b>Camera</b> at the code.</span></li>
-   <li data-hl="m2ban"><i>3</i><span>Tap <b>Open in “SwipeLater”</b>. That’s it.</span></li></ol>
+   <li><i>2</i><span>Point your iPhone <b>Camera</b> at the code.</span></li>
+   <li><i>3</i><span>Tap <b>Open in “SwipeLater”</b>. That’s it.</span></li></ol>
   <p class="stuck"><b>Stuck?</b> Use the same Wi-Fi on both. Codes expire after a few minutes, so press <b>NEW CODE</b> for another.</p>
   <div class="go"><button data-back>Back</button><button class="main" data-next>Next step</button></div></div>
  <div class="mock"><div class="duo">
   <div class="pcw"><div class="cap"><img src="../assets/app/icon.png" alt="">SwipeLater<div class="ctl"><span><svg width="10" height="10" aria-hidden="true"><path d="M0 5.5h10" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><rect x=".5" y=".5" width="9" height="9" fill="none" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><path d="M0 0l10 10M10 0 0 10" stroke="#333"/></svg></span></div></div><div class="pcb"><h3>SwipeLater</h3><div class="run">● Running on this PC</div>
    <div class="card"><div class="lbl">PHONE</div><div style="font-size:14px;margin-bottom:10px" id="m2t">No phone paired yet.</div>
    <canvas id="qr" width="120" height="120" style="display:none;margin:0 auto 10px"></canvas><span class="blue" id="m2btn">PAIR MY PHONE</span></div></div></div>
-  <div class="device"><img src="../assets/app/pair-camera.webp" width="735" height="1500" alt="iPhone Camera pointed at the pairing code on the PC, showing Open in SwipeLater."><span class="spot" id="m2qr" style="left:33%;top:23.6%;width:33%;height:16.4%"></span><span class="spot" id="m2ban" style="left:29.5%;top:60.6%;width:41%;height:4.6%;border-radius:99px"></span></div>
  </div></div>
 </section>
 
@@ -213,13 +212,12 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 <!-- 4 -->
 <section class="panel" id="p3">
  <div><div class="kick">Step 4 of 4</div><h2>Start focusing</h2>
-  <ol class="todo"><li data-hl="m4lock"><i>1</i><span>On your iPhone, pick your minutes and <b>slide to lock in</b>.</span></li>
+  <ol class="todo"><li><i>1</i><span>On your iPhone, pick your minutes and <b>slide to lock in</b>.</span></li>
    <li data-hl="m4pc"><i>2</i><span>Your PC shows the same timer. Scroll or open a distracting app, and your buddy nudges you.</span></li></ol>
   <p class="stuck"><b>Stuck?</b> PC says <b>No session</b>? Check that the phone still says <b>Paired</b>, or redo step 2.</p>
   <div class="go"><button data-back>Back</button><button class="main" id="finish">I’m done</button></div></div>
  <div class="mock"><div class="duo">
   <div class="pcw" id="m4pc"><div class="cap"><img src="../assets/app/icon.png" alt="">SwipeLater<div class="ctl"><span><svg width="10" height="10" aria-hidden="true"><path d="M0 5.5h10" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><rect x=".5" y=".5" width="9" height="9" fill="none" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><path d="M0 0l10 10M10 0 0 10" stroke="#333"/></svg></span></div></div><div class="pcb"><h3>SwipeLater</h3><div class="run">● Running on this PC</div><div class="card"><div class="lbl">RIGHT NOW</div><div style="font-size:17px;font-weight:700">Focusing · 44:59 left</div><div style="font-size:13px;color:#555;margin-top:2px">Distracting apps get a nudge from the buddy.</div></div></div></div>
-  <div class="device"><img src="../assets/app/idle.webp" width="735" height="1500" alt="SwipeLater on iPhone with 45 minutes picked and Slide to lock in."><span class="spot" id="m4lock" style="left:19.5%;top:85.2%;width:61%;height:7.6%;border-radius:99px"></span></div>
  </div></div>
 </section>
 
@@ -241,7 +239,7 @@ function paint(){Q('#nav button').forEach((b,i)=>{b.classList.toggle('cur',i===c
  Q('.panel').forEach((p,pi)=>{const li=Q('.todo li',p);let c=li.findIndex(l=>!l.classList.contains('done'));li.forEach((l,i)=>l.classList.toggle('cur',i===c));
   Q('.hl').forEach(e=>e.classList.remove('hl'));});
  hlCur();}
-function hlCur(){Q('.hl').forEach(e=>e.classList.remove('hl'));const p=$('p'+cur);const l=Q('.todo li.cur',p)[0];if(l&&l.dataset.hl)$(l.dataset.hl).classList.add('hl')}
+function hlCur(){Q('.hl').forEach(e=>e.classList.remove('hl'));const p=$('p'+cur);const l=Q('.todo li.cur',p)[0];const t=l&&l.dataset.hl&&$(l.dataset.hl);if(t)t.classList.add('hl')}
 function stepDone(i){doneSteps.add(i);paint()}
 Q('.todo li').forEach(li=>li.onclick=()=>{li.classList.toggle('done');const p=li.closest('.panel'),pi=+p.id.slice(1);const all=Q('.todo li',p).every(l=>l.classList.contains('done'));
  if(all)doneSteps.add(pi);else doneSteps.delete(pi);
