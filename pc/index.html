@@ -239,6 +239,8 @@ function installed(){clearInterval(poll);mark(3);stage=3;$('get').textContent='S
 $('get').addEventListener('click',()=>{
  wasUp=false;ping().then(u=>{wasUp=u});stage=1;mark(1);
  $('get').textContent='Downloading…';$('get').classList.add('copied');
+ // The click also starts the download (plain link). Move on to step 2 right away.
+ doneSteps.add(0);cur=1;paint();scrollTo({top:0,behavior:'smooth'});
  clearInterval(poll);poll=setInterval(async()=>{if(!wasUp&&await ping())installed()},1500);
  setTimeout(()=>{if(stage<3){$('get').textContent='Download again';$('get').classList.remove('copied')}},7000)});
 if(/iPhone|iPad|Android/i.test(navigator.userAgent)){const n=document.createElement('div');n.className='stuck';n.style.cssText='margin-bottom:24px;background:#EEF2FB;color:var(--ink)';n.innerHTML='<b>You are on a phone.</b> Open this page on your PC to install. You can read the steps here first.';document.querySelector('.head').after(n);const g=$('get');g.removeAttribute('href');g.removeAttribute('download');g.setAttribute('role','button');g.style.cursor='pointer';g.textContent='Copy link for my PC';
