@@ -79,6 +79,17 @@ kbd{display:inline-block;min-width:2em;padding:0 .5em;border-radius:7px;border:1
 .get:hover{background:var(--blue-hover);text-decoration:none}.get:active{transform:scale(.98)}
 .get.copied{background:var(--ok)}
 
+/* Step 1: just the download */
+.panel.dlp.on{grid-template-columns:1fr;justify-items:center}
+.dl{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:560px;padding:clamp(18px,5vw,44px) 0 6px}
+.dl .app{width:96px;height:96px;border-radius:22px;margin:0 0 24px;box-shadow:0 0 0 .5px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.08),0 18px 36px -12px rgba(30,30,40,.3)}
+.dl h2{margin:0;font-size:clamp(32px,5vw,44px);letter-spacing:-.034em}
+.dl .meta{margin:8px 0 28px;color:var(--soft);font-size:17px;letter-spacing:-.02em}
+.dl .get{width:auto;min-width:min(100%,280px);padding:0 38px;min-height:56px;margin:0 0 14px}
+.dl .fine{margin:0 0 26px}
+.quiet{all:unset;cursor:pointer;color:var(--link);font-size:17px;padding:10px 18px;border-radius:99px;transition:background-color .2s ease}
+.quiet:hover{background:rgba(47,87,184,.08)}.quiet:focus-visible{outline:3px solid var(--blue)}
+
 /* Pictures of each step */
 .mock{position:relative;padding:28px;min-height:440px;display:grid;place-items:center;border-radius:28px;background:var(--tint)}
 .win{border-radius:12px;background:#1b1f25;box-shadow:0 0 0 1px rgba(0,0,0,.08),0 30px 60px -24px rgba(30,30,40,.4);overflow:hidden;width:100%;color:#f3f5f8}
@@ -124,14 +135,15 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 <nav id="nav" aria-label="Steps"></nav>
 
 <!-- 1 -->
-<section class="panel" id="p0">
- <div><div class="kick">Step 1 of 4 · On your PC</div><h2>Install SwipeLater</h2>
-  <a class="get" id="get" href="https://github.com/Chikensoupppp/lk-dac12ca4eb/releases/latest/download/SwipeLater-PC.exe" download>Download for Windows</a>
-  <p class="fine">SwipeLater-PC.exe · about 200 MB · Windows 10 and 11 · signed</p>
-  <div class="go"><button data-back disabled>Back</button><button class="main" data-next>Next step</button></div></div>
- <div class="mock"><div class="win" style="max-width:430px;background:#2a2f37"><div class="bar" style="background:#323843">Downloads</div>
-  <div style="padding:20px"><div style="color:#a0a8b3;font-size:.9rem">Today</div>
-  <div id="mdl" style="margin-top:12px;padding:14px;background:#12161b;border:1.5px solid #3b4551;border-radius:10px;display:flex;align-items:center;gap:14px;opacity:.45;transition:opacity .3s ease"><img src="../assets/app/icon.png" alt="" width="40" height="40" style="border-radius:10px"><div style="flex:1;min-width:0"><div style="color:#f3f5f8;font-weight:600;font-size:.95rem">SwipeLater-PC.exe</div><div id="mtxt" style="color:#a0a8b3;font-size:.8rem;margin-top:2px">Waiting for you to press Download</div></div><span id="mopen" style="padding:7px 14px;border-radius:99px;background:#1b2027;border:1.5px solid #3b4551;color:#777;font-size:.8rem;font-weight:600">Open file</span></div></div></div></div>
+<section class="panel dlp" id="p0">
+ <div class="dl">
+  <img class="app" src="../assets/app/icon.png" alt="" width="96" height="96">
+  <h2>SwipeLater for Windows</h2>
+  <p class="meta">Windows 10 and 11 · Signed</p>
+  <a class="get" id="get" href="https://github.com/Chikensoupppp/lk-dac12ca4eb/releases/latest/download/SwipeLater-PC.exe" download>Download</a>
+  <p class="fine">SwipeLater-PC.exe · about 200 MB</p>
+  <button class="quiet" data-next>Next step</button>
+ </div>
 </section>
 
 <!-- 2 -->
@@ -222,14 +234,13 @@ let stage=0,poll,wasUp=false;
 const li0=Q('#p0 .todo li');
 function mark(n){li0.forEach((l,i)=>l.classList.toggle('done',i<n));if(n>=3)doneSteps.add(0);paint()}
 function ping(){return fetch('http://127.0.0.1:47821/health',{mode:'no-cors',cache:'no-store'}).then(()=>true,()=>false)}
-function installed(){clearInterval(poll);mark(3);stage=3;$('get').textContent='SwipeLater is running';$('get').classList.add('copied');$('mtxt').textContent='Opening SwipeLater…'}
+function installed(){clearInterval(poll);mark(3);stage=3;$('get').textContent='SwipeLater is running';$('get').classList.add('copied')}
 // The download itself is a plain link. This only follows along: once the companion answers on this PC, step 1 is done.
 $('get').addEventListener('click',()=>{
  wasUp=false;ping().then(u=>{wasUp=u});stage=1;mark(1);
  $('get').textContent='Downloading…';$('get').classList.add('copied');
- $('mdl').style.opacity=1;$('mtxt').textContent='Saving to your Downloads folder…';$('mopen').style.color='#f3f5f8';
  clearInterval(poll);poll=setInterval(async()=>{if(!wasUp&&await ping())installed()},1500);
- setTimeout(()=>{if(stage<3){$('get').textContent='Download again';$('get').classList.remove('copied');$('mtxt').textContent='Open the file when it finishes'}},7000)});
+ setTimeout(()=>{if(stage<3){$('get').textContent='Download again';$('get').classList.remove('copied')}},7000)});
 if(/iPhone|iPad|Android/i.test(navigator.userAgent)){const n=document.createElement('div');n.className='stuck';n.style.cssText='margin-bottom:24px;background:#EEF2FB;color:var(--ink)';n.innerHTML='<b>You are on a phone.</b> Open this page on your PC to install. You can read the steps here first.';document.querySelector('.head').after(n);const g=$('get');g.removeAttribute('href');g.removeAttribute('download');g.setAttribute('role','button');g.style.cursor='pointer';g.textContent='Copy link for my PC';
  g.addEventListener('click',async e=>{e.stopImmediatePropagation();try{await navigator.clipboard.writeText(location.href)}catch(err){}g.textContent='Link copied';g.classList.add('copied')},true)}
 paint();
