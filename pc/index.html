@@ -75,6 +75,14 @@ ol.todo{list-style:none;margin:0;padding:0}
 .todo b{font-weight:600;color:var(--ink)}
 @media (hover:hover) and (pointer:fine){.todo li:hover{color:var(--ink)}}
 kbd{display:inline-block;min-width:1.9em;padding:0 .45em;border-radius:6px;border:1px solid #D0D0CB;border-bottom-width:2px;background:#fff;font:600 13px/1.7 ui-monospace,"SF Mono",Consolas,monospace;text-align:center;color:var(--ink)}
+.say{margin:0;font-size:19px;line-height:1.5;letter-spacing:-.018em;color:var(--ink);max-width:30em}.say b{font-weight:600}
+.how{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.how summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 2px;font-size:17px;font-weight:500;color:var(--ink);border-radius:10px}
+.how summary::-webkit-details-marker{display:none}
+.how summary::after{content:"";flex:none;width:8px;height:8px;margin-right:6px;border:solid var(--soft);border-width:0 2px 2px 0;transform:translateY(-3px) rotate(45deg);transition:transform .25s var(--ease)}
+.how[open] summary::after{transform:translateY(2px) rotate(-135deg)}
+.how summary:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.howb{padding:0 2px 18px}.howb .say{font-size:17px}.howb .stuck{margin-top:12px}
 .stuck{margin:20px 0 0;color:var(--soft);font-size:15px;line-height:1.5}.stuck b{color:var(--ink);font-weight:600}
 .note{margin:0 0 28px;padding:14px 16px;border-radius:14px;background:#EEF2FB;font-size:15px;line-height:1.5}
 .go{display:flex;flex-direction:row-reverse;justify-content:flex-end;align-items:center;gap:6px;margin-top:30px}
@@ -178,10 +186,10 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 <!-- 2 -->
 <section class="panel" id="p1">
  <div><div class="kick">Step 2 of 4</div><h2>Pair your phone</h2>
-  <ol class="todo"><li data-hl="m2btn"><i>1</i><span>On your PC, press <b>PAIR MY PHONE</b> in SwipeLater.</span></li>
-   <li><i>2</i><span>Point your iPhone <b>Camera</b> at the code.</span></li>
-   <li><i>3</i><span>Tap <b>Open in “SwipeLater”</b>. That’s it.</span></li></ol>
+  <details class="how"><summary>How to pair</summary><div class="howb">
+  <p class="say">On your PC, press <b>PAIR MY PHONE</b>. Scan the code with your iPhone Camera, then tap <b>Open in “SwipeLater”</b>.</p>
   <p class="stuck"><b>Stuck?</b> Use the same Wi-Fi on both. Codes expire after a few minutes, so press <b>NEW CODE</b> for another.</p>
+  </div></details>
   <div class="go"><button data-back>Back</button><button class="main" data-next>Next step</button></div></div>
  <div class="mock"><div class="duo">
   <div class="pcw"><div class="cap"><img src="../assets/app/icon.png" alt="">SwipeLater<div class="ctl"><span><svg width="10" height="10" aria-hidden="true"><path d="M0 5.5h10" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><rect x=".5" y=".5" width="9" height="9" fill="none" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><path d="M0 0l10 10M10 0 0 10" stroke="#333"/></svg></span></div></div><div class="pcb"><h3>SwipeLater</h3><div class="run">● Running on this PC</div>
@@ -212,9 +220,10 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 <!-- 4 -->
 <section class="panel" id="p3">
  <div><div class="kick">Step 4 of 4</div><h2>Start focusing</h2>
-  <ol class="todo"><li><i>1</i><span>On your iPhone, pick your minutes and <b>slide to lock in</b>.</span></li>
-   <li data-hl="m4pc"><i>2</i><span>Your PC shows the same timer. Scroll or open a distracting app, and your buddy nudges you.</span></li></ol>
-  <p class="stuck"><b>Stuck?</b> PC says <b>No session</b>? Check that the phone still says <b>Paired</b>, or redo step 2.</p>
+  <details class="how"><summary>How to start</summary><div class="howb">
+  <p class="say">On your iPhone, slide to lock in. Your PC shows the same timer and nudges you if you open a distracting app.</p>
+  <p class="stuck"><b>No timer on your PC?</b> Check that your phone still says <b>Paired</b>.</p>
+  </div></details>
   <div class="go"><button data-back>Back</button><button class="main" id="finish">I’m done</button></div></div>
  <div class="mock"><div class="duo">
   <div class="pcw" id="m4pc"><div class="cap"><img src="../assets/app/icon.png" alt="">SwipeLater<div class="ctl"><span><svg width="10" height="10" aria-hidden="true"><path d="M0 5.5h10" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><rect x=".5" y=".5" width="9" height="9" fill="none" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><path d="M0 0l10 10M10 0 0 10" stroke="#333"/></svg></span></div></div><div class="pcb"><h3>SwipeLater</h3><div class="run">● Running on this PC</div><div class="card"><div class="lbl">RIGHT NOW</div><div style="font-size:17px;font-weight:700">Focusing · 44:59 left</div><div style="font-size:13px;color:#555;margin-top:2px">Distracting apps get a nudge from the buddy.</div></div></div></div>
