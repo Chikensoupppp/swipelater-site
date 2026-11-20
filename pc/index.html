@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Set up SwipeLater on your PC</title>
-<meta name="description" content="Install SwipeLater for Windows and pair it with your iPhone in 4 short steps.">
+<meta name="description" content="Install SwipeLater for Windows and pair it with your iPhone in 3 short steps.">
 <meta name="theme-color" content="#FBFBF9">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="../assets/app/icon.png">
@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* Same language as the home page. The step pictures keep the real look of each thing they show
-   (the Windows Run box, Chrome's extensions page, the SwipeLater window, the iPhone). */
+   (the Windows Run box, the SwipeLater window, the iPhone). */
 :root{
   --bg:#FBFBF9; --tint:#F3F3F0; --card:#FFFFFF; --ink:#1D1D1F; --soft:#6E6E73; --hair:rgba(0,0,0,.09); --edge:#E3E3DF;
   --blue:#3255A4; --blue-hover:#2A4890; --link:#2F57B8; --ok:#1F8A4C; --ok-bg:#E6F4EA; --sun:#FFB511;
@@ -46,7 +46,7 @@ h1{font-size:clamp(34px,5vw,48px);line-height:1.06;letter-spacing:-.032em;font-w
 .head p{margin:8px 0 0;color:var(--soft);font-size:19px;letter-spacing:-.02em}
 
 /* Step tabs */
-#nav{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:40px;padding:4px;border-radius:16px;background:var(--tint)}
+#nav{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:40px;padding:4px;border-radius:16px;background:var(--tint)}
 #nav button{all:unset;cursor:pointer;padding:10px 14px;border-radius:12px;display:flex;gap:10px;align-items:center;justify-content:center;font-size:15px;font-weight:500;color:var(--soft);transition:background-color .25s ease,color .25s ease,box-shadow .25s ease}
 #nav button i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.08);display:grid;place-items:center;font-weight:600;font-size:13px;color:var(--ink)}
 #nav button.cur{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08),0 0 0 .5px rgba(0,0,0,.06)}
@@ -168,7 +168,7 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 </header>
 <main>
 <div class="head"><div class="mini" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="#fff" stroke="#E3E3DF" stroke-width="2"/><circle cx="50" cy="50" r="35" fill="none" stroke="#EDEDE9" stroke-width="6"/><circle id="parc" cx="50" cy="50" r="35" fill="none" stroke="#3255A4" stroke-width="6" stroke-linecap="round" stroke-dasharray="219.9" stroke-dashoffset="219.9" transform="rotate(-90 50 50)"/></svg><img src="brain.png" alt="" width="40" height="33"></div>
-<div><h1>Set up SwipeLater on your PC</h1><p>4 short steps. About 5 minutes.</p></div></div>
+<div><h1>Set up SwipeLater on your PC</h1><p>3 short steps. About 5 minutes.</p></div></div>
 <nav id="nav" aria-label="Steps"></nav>
 
 <!-- 1 -->
@@ -185,7 +185,7 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 
 <!-- 2 -->
 <section class="panel" id="p1">
- <div><div class="kick">Step 2 of 4</div><h2>Pair your phone</h2>
+ <div><div class="kick">Step 2 of 3</div><h2>Pair your phone</h2>
   <details class="how"><summary>How to pair</summary><div class="howb">
   <p class="say">On your PC, press <b>PAIR MY PHONE</b>. Scan the code with your iPhone Camera, then tap <b>Open in “SwipeLater”</b>.</p>
   <p class="stuck"><b>Stuck?</b> Use the same Wi-Fi on both. Codes expire after a few minutes, so press <b>NEW CODE</b> for another.</p>
@@ -200,28 +200,7 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 
 <!-- 3 -->
 <section class="panel" id="p2">
- <div><div class="kick">Step 3 of 4 · Optional</div><h2>Connect your browser</h2>
-  <p class="lede">Lets your buddy see when scrolling takes over. You can skip this.</p>
-  <details class="how"><summary>How to connect</summary><div class="howb">
-  <ol class="todo"><li data-hl="m3conn"><i>1</i><span>In SwipeLater, press <b>CONNECT BROWSERS</b>. Chrome opens Extensions.</span></li>
-   <li data-hl="m3dev"><i>2</i><span>Turn on <b>Developer mode</b>, top right.</span></li>
-   <li data-hl="m3lu"><i>3</i><span>Press <b>Load unpacked</b>.</span></li>
-   <li data-hl="m3dlg"><i>4</i><span>Click the folder box, press <kbd>Ctrl</kbd> <kbd>V</kbd>, then <b>Select Folder</b>.</span></li>
-   <li data-hl="m3inc"><i>5</i><span>On <b>SwipeLater buddy</b>, press <b>Details</b> and turn on <b>Allow in Incognito</b>.</span></li></ol>
-  <p class="stuck"><b>Stuck?</b> No Developer mode switch? The address should read <b>chrome://extensions</b> (<b>edge://extensions</b> in Edge, <b>opera://extensions</b> in Opera).</p>
-  </div></details>
-  <div class="go"><button data-back>Back</button><button class="main" data-next>Next step</button></div></div>
- <div class="mock"><div class="chrome"><div class="tabs"><div class="tab"><i></i>Extensions</div></div><div class="omni"><span>chrome://extensions</span></div>
-  <div class="cbody"><div style="display:flex;justify-content:space-between;align-items:center;font-size:18px;font-weight:600">Extensions <span style="font-size:12px;font-weight:400;border-radius:8px" id="m3dev">Developer mode&nbsp; <span class="tog" id="tdev"></span></span></div>
-   <div style="margin:14px 0;display:flex;gap:8px"><span class="chip" id="m3lu">Load unpacked</span><span class="chip" style="font-weight:400">Pack extension</span></div>
-   <div id="m3dlg" style="padding:14px;border:1px solid #DADCE0;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.12);margin-bottom:12px"><div style="font-weight:600;font-size:13px;margin-bottom:8px">Select the extension directory</div><div style="padding:8px 10px;border:1.5px solid #1a73e8;border-radius:6px;font:11px Consolas,monospace;color:#333;word-break:break-all">…\AppData\Local\Programs\SwipeLater\extension</div><div style="text-align:right;margin-top:10px"><span style="display:inline-block;padding:7px 14px;background:#1a73e8;color:#fff;border-radius:99px;font-size:12px">Select Folder</span></div></div>
-   <div style="padding:13px;border:1px solid #DADCE0;border-radius:12px;max-width:290px"><div style="font-weight:600;font-size:14px">SwipeLater buddy</div><div style="font-size:12px;color:#5f6368;margin:3px 0 8px">Lets the buddy see when scrolling takes over.</div><div style="font-size:12px;border-radius:8px;display:inline-block" id="m3inc">Allow in Incognito&nbsp; <span class="tog" id="tinc"></span></div></div></div></div>
-  <div class="pcw mini-pcw" id="m3conn"><div class="cap"><img src="../assets/app/icon.png" alt="">SwipeLater<div class="ctl"><span><svg width="10" height="10" aria-hidden="true"><path d="M0 5.5h10" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><rect x=".5" y=".5" width="9" height="9" fill="none" stroke="#333"/></svg></span><span><svg width="10" height="10" aria-hidden="true"><path d="M0 0l10 10M10 0 0 10" stroke="#333"/></svg></span></div></div><div class="pcb" style="padding:12px 14px"><span class="blue" style="font-size:11px;padding:8px 10px">CONNECT BROWSERS</span></div></div></div>
-</section>
-
-<!-- 4 -->
-<section class="panel" id="p3">
- <div><div class="kick">Step 4 of 4</div><h2>Start focusing</h2>
+ <div><div class="kick">Step 3 of 3</div><h2>Start focusing</h2>
   <details class="how"><summary>How to start</summary><div class="howb">
   <p class="say">On your iPhone, slide to lock in. Your PC shows the same timer and nudges you if you open a distracting app.</p>
   <p class="stuck"><b>No timer on your PC?</b> Check that your phone still says <b>Paired</b>.</p>
@@ -242,11 +221,11 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 </footer>
 <script>
 const $=id=>document.getElementById(id),Q=(s,r=document)=>[...r.querySelectorAll(s)];
-const names=['Install','Pair','Browser','Focus'];let cur=0,doneSteps=new Set();
+const names=['Install','Pair','Focus'];let cur=0,doneSteps=new Set();
 $('nav').innerHTML=names.map((n,i)=>`<button data-i="${i}"><i>${i+1}</i><span>${n}</span></button>`).join('');
 function paint(){Q('#nav button').forEach((b,i)=>{b.classList.toggle('cur',i===cur);b.classList.toggle('ok',doneSteps.has(i))});
  Q('.panel').forEach((p,i)=>p.classList.toggle('on',i===cur&&!$('fin').classList.contains('on')));
- $('parc').style.strokeDashoffset=219.9*(1-doneSteps.size/4);
+ $('parc').style.strokeDashoffset=219.9*(1-doneSteps.size/3);
  Q('.panel').forEach((p,pi)=>{const li=Q('.todo li',p);let c=li.findIndex(l=>!l.classList.contains('done'));li.forEach((l,i)=>l.classList.toggle('cur',i===c));
   Q('.hl').forEach(e=>e.classList.remove('hl'));});
  hlCur();}
@@ -258,10 +237,10 @@ Q('.todo li').forEach(li=>li.onclick=()=>{li.classList.toggle('done');const p=li
  if(pi===1){const d=Q('.todo li',p).map(l=>l.classList.contains('done'));$('qr').style.display=d[0]?'block':'none';$('m2t').textContent=d[2]?'Paired with your iPhone.':(d[0]?'Point your iPhone Camera at this.':'No phone paired yet.')}
  if(pi===2){const d=Q('.todo li',p).map(l=>l.classList.contains('done'));$('tdev').classList.toggle('on',d[1]);$('tinc').classList.toggle('on',d[4])}
  paint()});
-Q('[data-next]').forEach(b=>b.onclick=()=>{doneSteps.add(cur);cur=Math.min(3,cur+1);paint();scrollTo({top:0,behavior:'smooth'})});
+Q('[data-next]').forEach(b=>b.onclick=()=>{doneSteps.add(cur);cur=Math.min(2,cur+1);paint();scrollTo({top:0,behavior:'smooth'})});
 Q('[data-back]').forEach(b=>b.onclick=()=>{cur=Math.max(0,cur-1);paint()});
 Q('#nav button').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;paint()});
-$('finish').onclick=()=>{[0,1,2,3].forEach(i=>doneSteps.add(i));$('fin').classList.add('on');Q('.panel').forEach(p=>p.classList.remove('on'));$('nav').style.display='none';paint()};
+$('finish').onclick=()=>{[0,1,2].forEach(i=>doneSteps.add(i));$('fin').classList.add('on');Q('.panel').forEach(p=>p.classList.remove('on'));$('nav').style.display='none';paint()};
 // QR
 (function(){const c=$('qr'),x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,120,120);x.fillStyle='#111';let s=7;const r=()=>(s=s*16807%2147483647)/2147483647;
  for(let i=0;i<25;i++)for(let j=0;j<25;j++)if(r()>.52)x.fillRect(4+i*4.4,4+j*4.4,4.4,4.4);
