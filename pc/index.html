@@ -75,8 +75,8 @@ kbd{display:inline-block;min-width:2em;padding:0 .5em;border-radius:7px;border:1
 .go button.main{background:var(--blue);color:#fff}.go button.main:hover{background:var(--blue-hover)}
 .go button:active{transform:scale(.97)}
 .go button:disabled{opacity:.35;cursor:default;transform:none}
-.get{width:100%;min-height:58px;border:0;border-radius:999px;margin:0 0 18px;font:600 18px var(--font);letter-spacing:-.01em;color:#fff;cursor:pointer;background:var(--blue);transition:background-color .3s ease,transform .16s var(--ease)}
-.get:hover{background:var(--blue-hover)}.get:active{transform:scale(.98)}
+.get{display:flex;align-items:center;justify-content:center;box-sizing:border-box;text-decoration:none;width:100%;min-height:58px;border:0;border-radius:999px;margin:0 0 10px;font:600 18px var(--font);letter-spacing:-.01em;color:#fff;cursor:pointer;background:var(--blue);transition:background-color .3s ease,transform .16s var(--ease)}
+.get:hover{background:var(--blue-hover);text-decoration:none}.get:active{transform:scale(.98)}
 .get.copied{background:var(--ok)}
 
 /* Pictures of each step */
@@ -100,7 +100,7 @@ kbd{display:inline-block;min-width:2em;padding:0 .5em;border-radius:7px;border:1
 @media (max-width:833px){.panel.on{grid-template-columns:1fr}#nav button span{display:none}.mock{min-height:0;padding:22px}.head{gap:16px}.mini{width:64px;height:64px}}
 @media (max-width:520px){.row2{flex-direction:column}.head{flex-direction:column;align-items:flex-start;gap:18px}.head p{font-size:17px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-.cmd{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0}
+.fine{margin:0 0 18px;text-align:center;color:var(--soft);font-size:13px}
 
 footer{background:var(--tint);color:var(--soft);font-size:12px;line-height:1.5;padding:22px 0 30px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -120,22 +120,22 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 </header>
 <main>
 <div class="head"><div class="mini" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="#fff" stroke="#E3E3DF" stroke-width="2"/><circle cx="50" cy="50" r="35" fill="none" stroke="#EDEDE9" stroke-width="6"/><circle id="parc" cx="50" cy="50" r="35" fill="none" stroke="#3255A4" stroke-width="6" stroke-linecap="round" stroke-dasharray="219.9" stroke-dashoffset="219.9" transform="rotate(-90 50 50)"/></svg><img src="brain.png" alt="" width="40" height="33"></div>
-<div><h1>Set up SwipeLater on your PC</h1><p>4 short steps. No Windows warning. About 5 minutes.</p></div></div>
+<div><h1>Set up SwipeLater on your PC</h1><p>4 short steps. About 5 minutes.</p></div></div>
 <nav id="nav" aria-label="Steps"></nav>
 
 <!-- 1 -->
 <section class="panel" id="p0">
  <div><div class="kick">Step 1 of 4 · On your PC</div><h2>Install SwipeLater</h2>
-  <button class="get" id="get">Get SwipeLater</button>
-  <ol class="todo"><li><i>1</i><span>Press <b>Get SwipeLater</b> above. It copies the install command for you.</span></li>
-   <li><i>2</i><span>On your keyboard, press <kbd>Win</kbd> + <kbd>R</kbd>. A small box called <b>Run</b> opens.</span></li>
-   <li><i>3</i><span>Press <kbd>Ctrl</kbd> + <kbd>V</kbd>, then <kbd>Enter</kbd>. Wait while it downloads. A SwipeLater window opens.</span></li></ol>
-  <div class="stuck"><b>Stuck?</b> The Run box only opens with the <kbd>Win</kbd> key (the Windows logo key, bottom left of your keyboard). No Run box? Press Start, type <b>Run</b>, press Enter.</div>
+  <a class="get" id="get" href="https://github.com/Chikensoupppp/lk-dac12ca4eb/releases/latest/download/SwipeLater-PC.exe" download>Download for Windows</a>
+  <p class="fine">SwipeLater-PC.exe · about 200 MB · Windows 10 and 11 · signed</p>
+  <ol class="todo"><li><i>1</i><span>Press <b>Download for Windows</b> above. Your browser saves <b>SwipeLater-PC.exe</b>.</span></li>
+   <li><i>2</i><span>When it finishes, open the file. Click it in your browser’s downloads, or find it in your <b>Downloads</b> folder.</span></li>
+   <li><i>3</i><span>If Windows asks to allow it, press <b>Yes</b>. A SwipeLater window opens.</span></li></ol>
+  <div class="stuck"><b>Stuck?</b> A blue box says <b>Windows protected your PC</b>? Press <b>More info</b>, then <b>Run anyway</b>. Can’t find the file? Open <b>File Explorer</b> and click <b>Downloads</b> on the left.</div>
   <div class="go"><button data-back disabled>Back</button><button class="main" data-next>Next step</button></div></div>
- <div class="mock"><div class="win" style="max-width:430px;background:#2a2f37"><div class="bar" style="background:#323843">Run</div>
-  <div style="padding:20px"><div style="color:#a0a8b3;font-size:.9rem">Type the name of a program, folder, document, or Internet resource.</div>
-  <div id="mrun" style="margin-top:14px;padding:12px;background:#12161b;border:1.5px solid #3b4551;border-radius:6px;color:#b5dcfc;font:.8rem/1.4 Consolas,monospace;min-height:70px">Open: <span id="mtxt" style="color:#555">(empty)</span></div>
-  <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px"><kbd style="padding:0 18px;line-height:2.2;background:#1b2027;color:#f3f5f8;border-color:#3b4551" id="menter">OK</kbd><kbd style="padding:0 18px;line-height:2.2;background:#1b2027;color:#777;border-color:#3b4551">Cancel</kbd></div></div></div></div>
+ <div class="mock"><div class="win" style="max-width:430px;background:#2a2f37"><div class="bar" style="background:#323843">Downloads</div>
+  <div style="padding:20px"><div style="color:#a0a8b3;font-size:.9rem">Today</div>
+  <div id="mdl" style="margin-top:12px;padding:14px;background:#12161b;border:1.5px solid #3b4551;border-radius:10px;display:flex;align-items:center;gap:14px;opacity:.45;transition:opacity .3s ease"><img src="../assets/app/icon.png" alt="" width="40" height="40" style="border-radius:10px"><div style="flex:1;min-width:0"><div style="color:#f3f5f8;font-weight:600;font-size:.95rem">SwipeLater-PC.exe</div><div id="mtxt" style="color:#a0a8b3;font-size:.8rem;margin-top:2px">Waiting for you to press Download</div></div><span id="mopen" style="padding:7px 14px;border-radius:99px;background:#1b2027;border:1.5px solid #3b4551;color:#777;font-size:.8rem;font-weight:600">Open file</span></div></div></div></div>
 </section>
 
 <!-- 2 -->
@@ -188,7 +188,6 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 </section>
 
 <section class="finish" id="fin"><img src="../assets/app/icon.png" alt="" width="96" height="96"><h2>All set.</h2><p>SwipeLater is on your PC and paired with your phone.<br>Close this page. SwipeLater keeps working in your tray.</p></section>
-<div class="cmd" id="c">powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://swipelater.app/get-swipelater.ps1 | iex"</div>
 </main>
 <footer>
   <div class="wrap">
@@ -223,21 +222,19 @@ $('finish').onclick=()=>{[0,1,2,3].forEach(i=>doneSteps.add(i));$('fin').classLi
  for(let i=0;i<25;i++)for(let j=0;j<25;j++)if(r()>.52)x.fillRect(4+i*4.4,4+j*4.4,4.4,4.4);
  for(const [a,b] of [[0,0],[18,0],[0,18]]){x.fillStyle='#fff';x.fillRect(2+a*4.4,2+b*4.4,35,35);x.fillStyle='#111';x.fillRect(4+a*4.4,4+b*4.4,31,31);x.fillStyle='#fff';x.fillRect(8+a*4.4,8+b*4.4,23,23);x.fillStyle='#111';x.fillRect(13+a*4.4,13+b*4.4,13,13)}})();
 // step 1 live logic
-const cmd=$('c').textContent.trim();let stage=0,poll,wasUp=false;
+let stage=0,poll,wasUp=false;
 const li0=Q('#p0 .todo li');
 function mark(n){li0.forEach((l,i)=>l.classList.toggle('done',i<n));if(n>=3)doneSteps.add(0);paint()}
 function ping(){return fetch('http://127.0.0.1:47821/health',{mode:'no-cors',cache:'no-store'}).then(()=>true,()=>false)}
 function installed(){clearInterval(poll);mark(3);stage=3;$('get').textContent='SwipeLater is running';$('get').classList.add('copied');$('mtxt').textContent='Opening SwipeLater…'}
-function runOpened(){if(stage>=1)return;stage=1;mark(2);$('mtxt').textContent='';$('mtxt').style.color='#b5dcfc';
- clearInterval(poll);poll=setInterval(async()=>{if(!wasUp&&await ping())installed()},1500)}
-$('get').onclick=async()=>{try{await navigator.clipboard.writeText(cmd)}catch(e){const r=document.createRange();r.selectNodeContents($('c'));getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand('copy')}
- wasUp=false;ping().then(u=>{wasUp=u});stage=0;$('get').textContent='Copied';$('get').classList.add('copied');mark(1);$('mtxt').textContent='(press Ctrl + V)';
- setTimeout(()=>{if(stage<3){$('get').textContent='Get SwipeLater again';$('get').classList.remove('copied')}},7000)};
-addEventListener('keydown',e=>{if(cur!==0||!li0[0].classList.contains('done'))return;if(e.key.toLowerCase()==='r'&&e.metaKey)runOpened()});
-addEventListener('blur',()=>{if(cur===0&&li0[0].classList.contains('done')&&stage===0)runOpened()});
-addEventListener('focus',()=>{if(stage===1)$('mtxt').textContent='…did the SwipeLater window open?'});
-// show the pasted command on the mock after step 3 hint
-li0[2].addEventListener('click',()=>{$('mtxt').textContent='powershell -NoProfile … | iex';$('mtxt').style.color='#b5dcfc'});
-if(/iPhone|iPad|Android/i.test(navigator.userAgent)){const n=document.createElement('div');n.className='stuck';n.style.cssText='margin-bottom:24px;background:#EEF2FB;color:var(--ink)';n.innerHTML='<b>You are on a phone.</b> Open this page on your PC to install. You can read the steps here first.';document.querySelector('.head').after(n);const g=$('get');g.textContent='Copy link for my PC';g.onclick=async()=>{try{await navigator.clipboard.writeText(location.href)}catch(e){}g.textContent='Link copied';g.classList.add('copied')}}
+// The download itself is a plain link. This only follows along: once the companion answers on this PC, step 1 is done.
+$('get').addEventListener('click',()=>{
+ wasUp=false;ping().then(u=>{wasUp=u});stage=1;mark(1);
+ $('get').textContent='Downloading…';$('get').classList.add('copied');
+ $('mdl').style.opacity=1;$('mtxt').textContent='Saving to your Downloads folder…';$('mopen').style.color='#f3f5f8';
+ clearInterval(poll);poll=setInterval(async()=>{if(!wasUp&&await ping())installed()},1500);
+ setTimeout(()=>{if(stage<3){$('get').textContent='Download again';$('get').classList.remove('copied');$('mtxt').textContent='Open the file when it finishes'}},7000)});
+if(/iPhone|iPad|Android/i.test(navigator.userAgent)){const n=document.createElement('div');n.className='stuck';n.style.cssText='margin-bottom:24px;background:#EEF2FB;color:var(--ink)';n.innerHTML='<b>You are on a phone.</b> Open this page on your PC to install. You can read the steps here first.';document.querySelector('.head').after(n);const g=$('get');g.removeAttribute('href');g.removeAttribute('download');g.setAttribute('role','button');g.style.cursor='pointer';g.textContent='Copy link for my PC';
+ g.addEventListener('click',async e=>{e.stopImmediatePropagation();try{await navigator.clipboard.writeText(location.href)}catch(err){}g.textContent='Link copied';g.classList.add('copied')},true)}
 paint();
 </script></body></html>
